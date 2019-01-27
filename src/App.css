@@ -1,4 +1,127 @@
 .App {
-  text-align: center;
+  /* text-align: center; */
+  /* color:red; */
+}
+
+/** GLOBAL **/
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-size:16px;
+  font-family: 'IBM Plex Mono', monospace;
+  /* background:black; */
+  color:black;
+  line-height: 1.48rem;
+  height:100%;
+}
+
+h1,h2,h3,h4,h5 {
+  margin:0;
+}
+
+div {
+  box-sizing: border-box;
+}
+
+li, ul {
+  list-style: none;
+  margin:0;
+  padding:0;
+}
+
+/** GRADIENT **/
+  body {
+  	width: 100wh;
+  	height: 100vh;
+  	color: #fff;
+    background:black;
+    /* background: linear-gradient(-45deg, red, blue, black, purple);
+    background-size: 400% 400%;
+    -webkit-animation: Gradient 15s ease infinite;
+    -moz-animation: Gradient 15s ease infinite;
+    animation: Gradient 15s ease infinite; */
+  }
+
+  @-webkit-keyframes Gradient {
+  	0% {
+  		background-position: 0% 50%
+  	}
+  	50% {
+  		background-position: 100% 50%
+  	}
+  	100% {
+  		background-position: 0% 50%
+  	}
+  }
+
+  @-moz-keyframes Gradient {
+  	0% {
+  		background-position: 0% 50%
+  	}
+  	50% {
+  		background-position: 100% 50%
+  	}
+  	100% {
+  		background-position: 0% 50%
+  	}
+  }
+
+  @keyframes Gradient {
+  	0% {
+  		background-position: 0% 50%
+  	}
+  	50% {
+  		background-position: 100% 50%
+  	}
+  	100% {
+  		background-position: 0% 50%
+  	}
+  }
+
+/** TERMINAL CHAT CONTAINTERS **/
+
+.container {
+  position:fixed;
+  width:50%;
+  height:100%;
+  padding:20px;
+  overflow: scroll;
+  overflow-x: auto;
+  word-wrap: break-word;
+}
+.terminal-container {
+  left:0;
+}
+.chat-container {
+  right:0;
+  color:white;
+}
+
+.chat-container.box {
+  right:0;
+  background-color: rgba(255,255,255,0.05);
+}
+
+/** INPUT **/
+.prompt {
   color:red;
+}
+input {
+  width:60%;
+  padding:10px 25px;
+  border:none;
+}
+
+input:focus {
+  outline: none;
+}
+
+input[type=text] {
+  background-color: rgba(255,255,255,0.1);
+  color: white;
+  /* border:2px solid #444; */
+  font-size:17px;
+  font-family: 'IBM Plex Mono', monospace;
+  border-radius: 25px;
 }
