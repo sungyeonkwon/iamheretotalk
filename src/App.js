@@ -274,24 +274,6 @@ class App extends Component {
     }
   }
 
-  handleFile = (file) => {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-          const file = event.target.result;
-          const allLines = file.split(/\r\n|\n/);
-          // Reading line by line
-          allLines.forEach((line) => {
-              // IMLEMENT
-              // from text, get patterns and write it in a json format
-              console.log(line);
-          });
-      };
-      reader.onerror = (event) => {
-          alert(event.target.error.name);
-      };
-      reader.readAsText(file);
-  }
-
   testDataStorageHandler = () => {
 
     testRawData.forEach(function(element){
@@ -338,43 +320,7 @@ class App extends Component {
         }
       }
     });
-
     console.log("this is the stored data", testDataStorage)
-  }
-
-  testLinePatternExtractor = (line) => {
-
-  }
-
-  fileReader = (event) => {
-
-    var file = event.target.files[0];
-
-
-    const handleFile = (file) => {
-          const reader = new FileReader();
-          reader.onload = function () {
-            const file = event.target.result;
-            const allLines = file.split(/\r\n|\n/);
-            // Reading line by line
-            allLines.forEach((line) => {
-                console.log(line);
-            });
-          }.bind(this);
-          // reader.onload = (event) => {
-          //     const file = event.target.result;
-          //     const allLines = file.split(/\r\n|\n/);
-          //     // Reading line by line
-          //     allLines.forEach((line) => {
-          //         console.log(line);
-          //     });
-          // }
-          // reader.onerror = (event) => {
-          //     alert(event.target.error.name);
-          // }
-          reader.readAsText(file);
-      }
-
   }
 
   myCallback = (dataFromChild) => {
@@ -398,13 +344,7 @@ class App extends Component {
         <Layout>
           {this.state.currSeq === 'Upload'?
           <Terminal sequence={this.state.renderSeq}>
-
             <FileReader callbackFromParent={this.myCallback} />
-
-            <div className="text-data-div">
-              <input type="text" onChange={this.testDataStorageHandler} />
-            </div>
-
             <Prompt userInput = {this.state.userInput}/>
             <input
               type="text"
