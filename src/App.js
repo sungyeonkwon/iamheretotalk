@@ -7,100 +7,7 @@ import Prompt from './components/Prompt'
 import ChatLine from './components/ChatLine'
 import Chat from './containers/Chat';
 
-import FakeData from './components/FakeData';
 import FileReader from './components/FileReader'
-
-//////////////////////////////////////////////////////////////////
-
-
-const testRawData = [
-  "[27/10/2018, 13:45:30] Sung: So I am proactively doing this thing to resolve the isse #2 from your list",
-  "[27/10/2018, 13:45:30] Sung: Oh my god! Did you really do that? Really? I BELIEVE IT",
-  "[27/10/2018, 13:45:30] Sung: I'll never meet the ground",
-  "[27/10/2018, 13:45:30] Sung: We're far from the shallow WE ARE FAR FROM THE SHALLOW",
-  "[27/10/2018, 13:45:30] dlwwlak: I think it's HAHAHAHA GOOD LAUGH really not that complicated (it's very simple)",
-  "[27/10/2018, 13:45:30] Sung: it has really come to a point",
-  "[27/10/2018, 13:45:30] Sung: Tell me something that I can relate to!",
-  "[27/10/2018, 13:45:30] Sung: Are you content",
-  "[27/10/2018, 13:45:30] Sung: I find myself belonged to this world",
-  "[27/10/2018, 13:45:30] Whadlwwlaktever: OH DEAR",
-]
-
-
-const testData = {
-  "lizard" : {
-      "a":[
-        "so mafawfawfawfawfawfawfawfawfawfaany things seem filled with the intent",
-        "The art of losing isn’t hard to master;",
-        "to be lost that their loss is no disaster.",
-      ],
-      "b":[
-        "Taaaing isn’t hard to master;",
-        "so many things seem filled with the intent",
-        "to be lost that their loss is no disaster.",
-      ],
-      "c":[
-        "to be lost that their loss is no disaster.",
-        "The art of losing isn’t hard to master;",
-        "so many things seem filled with the intent",
-      ],
-      "d":[
-        "so many things seem filled with the intent",
-        "to be lost that their loss is no disaster.",
-      ],
-    }
-}
-
-let testDataStorage = {
-};
-
-// DONE
-function getUser(line){
-  let regex = /:[0-9][0-9]] [a-zA-Z]+:/ig,
-      matched = line.match(regex).toString(),
-      user = matched.substring(5, matched.length - 1);
-  return user // returns a string
-}
-
-// DONE
-function getContent(line){ // refactor this with getUser
-  let regex = /.*:[0-9][0-9]] [a-zA-Z]+:/ig,
-      matched = line.match(regex).toString(),
-      user = matched.substring(5, matched.length - 1);
-  return line.substring(matched.length + 1)
-}
-
-// DONE
-function getPatternA(line){
-  // uppercase only sentence
-  let regex = /([A-Z]{2,}\s*)+/g,
-      matched = line.match(regex)
-  return matched // returns an array
-}
-
-// DONE
-function getPatternB(line){
-  // sentence ending with '!'
-  let regex = /([\w]\s*)+\!/ig,
-      matched = line.match(regex)
-  return matched // returns an array
-}
-
-// DONE
-function getPatternC(line){
-  // sentence ending with '!'
-  let regex = /because(\w*\s*)*(\W)/ig,
-      matched = line.match(regex)
-  return matched // returns an array
-}
-
-// DONE
-function getPatternD(line){
-  // long sentence
-  let regex = /\b[A-Z][^\.\!\?\:]*[\.]/ig;
-  let found = line.match(regex);
-  return found
-}
 
 
 let optionCount = {
@@ -108,11 +15,14 @@ let optionCount = {
   b: 0,
   c: 0,
   d: 0,
+  e: 0,
+  f: 0,
+  g: 0,
+  h: 0,
 }
 
-//////////////////////////////////////////////////////////////////
+let finishedData;
 
-console.log("PLEASE FileReader.fakeDataFromReader", typeof FileReader)
 
 class App extends Component {
 
@@ -136,12 +46,7 @@ class App extends Component {
         done: 'Person',
       },
       Person: {
-        a: 'Ready',
-        b: 'Ready',
-      },
-      Ready: {
-        a: 'Talk',
-        b: 'Person',
+        a: 'Talk', b: 'Talk', c: 'Talk', d: 'Talk', e: 'Talk', f: 'Talk', g: 'Talk', h: 'Talk',
       },
       Talk: {
         restart: 'Landing',
@@ -153,10 +58,11 @@ class App extends Component {
       renderSeq: 'Landing',
       chatContent: [
         'I\'m here to talk.',
-        'Blueberry Placeholder',
-        'Sheme',
       ],
+      chatUsers:{},
+      chosenUser: '',
       optionToRender: null,
+      fileStatus: null,
   };
 
   componentDidMount() {
@@ -176,12 +82,16 @@ class App extends Component {
       this.setState({userAnswer:userAnswer})
 
       // if currseq is chat, get optiontorender
-      if (this.state.currSeq === 'Talk' && userAnswer !== 'restart'){
-        let optionToRender = this.chatOptionHandler(userAnswer)
-        // this.setState({optionToRender: optionToRender})
-        console.log("sanity check", optionToRender)
-        // set state here!
-        let addToChatContent = this.updateChatContent(optionToRender) // this is a new chosen line to add
+      if (this.state.currSeq === 'Person'){
+        //// error setting is not useranswer, need to store not the 'abcd' but the user
+        let chosenUser = this.state.chatUsers[userAnswer]
+        this.setState({chosenUser: chosenUser})
+
+        let seqToRender = this.resHandler(userAnswer)
+        this.setState({renderSeq: seqToRender})
+      } else if (this.state.currSeq === 'Talk' && userAnswer !== 'restart'){
+        let optionToRender = userAnswer
+        let addToChatContent = this.updateChatContent(optionToRender, this.state.chosenUser) // this is a new chosen line to add
 
         this.setState({
           optionToRender: optionToRender,
@@ -197,47 +107,27 @@ class App extends Component {
     }
   }
 
-  chatOptionHandler = (res) => {
-    let choice = ''
-    switch (res) {
-      case 'give me a shout.':
-        choice = "a";
-        // also need to add this to the chatContent?
-        break;
-      case 'what?':
-        choice = "b";
-        break;
-      case 'but why?':
-        choice = "c";
-        break;
-      case 'tell me.':
-        choice = "d";
-        break;
-      default:
-        choice = null;
-    }
-    return choice
-  }
-
   // input: option from the user
   // output: random line from the data object
-  updateChatContent = (opt) => {
-    console.log("hello????testDataStorage", testDataStorage)
+  updateChatContent = (opt, user) => {
+    console.log("[updateChatContent]", finishedData)
+    console.log("[updateChatContent]]", user)
+
     try {
-      console.log("????????????? testDataStorage[0][opt]",testDataStorage["Sung"][opt])
+      console.log("?????????????", finishedData[user][opt])
       let selectedLine;
-      if (optionCount[opt] <= testDataStorage["Sung"][opt].length - 1){
-        selectedLine = testDataStorage["Sung"][opt][optionCount[opt]]
+      if (optionCount[opt] <= finishedData[user][opt].length - 1){
+        selectedLine = finishedData[user][opt][optionCount[opt]]
         optionCount[opt] += 1
       } else {
         optionCount[opt] = 0
-        selectedLine = testDataStorage["Sung"][opt][optionCount[opt]]
+        selectedLine = finishedData[user][opt][optionCount[opt]]
       }
       return selectedLine;
     }
     catch(error) {
       console.error(error);
-      return 'line blackhole'
+      return 'You did not talk in a right way to me.'
     }
   }
 
@@ -274,60 +164,41 @@ class App extends Component {
     }
   }
 
-  testDataStorageHandler = () => {
-
-    testRawData.forEach(function(element){
-
-      let userName = getUser(element)
-      let resultA = getPatternA(element)
-      let resultB = getPatternB(element)
-      let resultC = getPatternC(element)
-      let resultD = getPatternD(element)
-
-      if (testDataStorage[userName]){
-        if ( resultA !== null ){
-          console.log("WHAT", testDataStorage[userName])
-          console.log("WHAT", testDataStorage)
-          testDataStorage[userName].a.push(...resultA)
-        }
-        if ( resultB !== null ){
-          testDataStorage[userName].a.push(...resultB)
-        }
-        if ( resultC !== null ){
-          testDataStorage[userName].a.push(...resultC)
-        }
-        if ( resultD !== null ){
-          testDataStorage[userName].a.push(...resultD)
-        }
-      } else {
-        testDataStorage[userName] = {
-          a: [],
-          b: [],
-          c: [],
-          d: [],
-        }
-        if ( resultA !== null ){
-          testDataStorage[userName].a.push(...resultA)
-        }
-        if ( resultB !== null ){
-          testDataStorage[userName].a.push(...resultB)
-        }
-        if ( resultC !== null ){
-          testDataStorage[userName].a.push(...resultC)
-        }
-        if ( resultD !== null ){
-          testDataStorage[userName].a.push(...resultD)
-        }
-      }
-    });
-    console.log("this is the stored data", testDataStorage)
-  }
-
-  myCallback = (dataFromChild) => {
-      console.log("[myCallback] inside")
+  callbackFileHandler = (dataFromChild, users) => {
+      console.log("[callbackFileHandler] inside")
       console.log("data from child delivered", dataFromChild)
+      console.log("[app.js callbackFileHandler]users", users)
+      users = users.sort()
+      let abcd = 'abcdefghijklmnopqrstuvwxyz'.split('')
+      // set the person as per the user data
+      let userObj = abcd.map((letter, i) => {
+        return ({ [letter]: users[i] })
+      });
+
+      // merge objects for chat users
+      userObj = userObj.reduce(function(acc, x) {
+          for (var key in x) {
+            if (x[key]){
+              acc[key] = x[key];
+            }
+          }
+          return acc;
+      }, {});
+
+      this.setState({
+        chatUsers: userObj,
+      })
+      finishedData = dataFromChild
   }
 
+  callbackFileLoading = () => {
+    this.setState({fileStatus: "Loading the file..."})
+    // alert("loading...")
+  }
+
+  callbackFileLoaded = () => {
+    this.setState({fileStatus: "File successfully uploaded."})
+  }
 
   render() {
     console.log("[APP] this.state.currSeq:",this.state.currSeq)
@@ -343,8 +214,20 @@ class App extends Component {
       <div className="App">
         <Layout>
           {this.state.currSeq === 'Upload'?
-          <Terminal sequence={this.state.renderSeq}>
-            <FileReader callbackFromParent={this.myCallback} />
+          <Terminal
+            sequence={this.state.renderSeq}
+            chatUsers={this.state.chatUsers}>
+            <FileReader
+              callbackFromParent={this.callbackFileHandler}
+              callbackFileLoading={this.callbackFileLoading}
+              callbackFileLoaded={this.callbackFileLoaded}
+              />
+          {this.state.fileStatus === null? <div></div>:
+            <div>
+            {this.state.fileStatus}<br/>
+            Please type in 'done' to proceed.
+            </div>}
+
             <Prompt userInput = {this.state.userInput}/>
             <input
               type="text"
@@ -353,7 +236,9 @@ class App extends Component {
               value={this.state.userInput} />
           </Terminal>
           :
-          <Terminal sequence={this.state.renderSeq}>
+          <Terminal
+              sequence={this.state.renderSeq}
+              chatUsers={this.state.chatUsers}>
             <Prompt userInput = {this.state.userInput}/>
             <input
               type="text"

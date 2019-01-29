@@ -12,7 +12,9 @@ class Terminal extends Component {
         return (
           <Aux>
             <div className ="terminal-container container">
-              <Sequence sequence={this.props.sequence}/>
+              <Sequence
+                sequence={this.props.sequence}
+                chatUsers={this.props.chatUsers}/>
               {this.props.children}
             </div>
           </Aux>
