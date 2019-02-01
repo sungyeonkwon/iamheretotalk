@@ -12,7 +12,7 @@ const sequence = ( props ) => {
         .map( (user, index) => {
             return (
                 <span key={index}>
-                    <span style={{ color:'pink' }}>({abcd[index]}) </span>{user}<br/>
+                    <span>({abcd[index]}) </span>{user}<br/>
                 </span> );
         } );
   } catch {
@@ -31,7 +31,7 @@ const sequence = ( props ) => {
   } else if (sequenceToRender=== "Info") {
     return (
       <div className="sequence">
-      This is a long winding paragraphs:<br/>
+      Information to come.<br/>
       (a) I'm ready to upload my chat
       </div>
     )
@@ -46,22 +46,20 @@ const sequence = ( props ) => {
   } else if (sequenceToRender === "Upload"){
     return (
       <div className="sequence">
-      Please export your whatsapp chat without media.
-      Your date format should be something like this, otherwise it means you're using American English and that's nice but farewell.<br/><br/>
       Upload your chat file named '_chat.txt' in the area below:<br/>
       </div>
     )
   } else if (sequenceToRender === "Person") {
     return (
       <div className="sequence">
-      Select who you want to talk to in this chat:<br/>
+      Select who you want to talk to:<br/>
       {userOptions}
       </div>
     )
   } else if (sequenceToRender === "Talk") {
     return(
       <div className="sequence">
-      Chat initialised<br/>
+      Chat initialised. What do you want to say?<br/><br/>
       (a) Give me a shout.<br/>
       (b) What?<br/>
       (c) But why?<br/>
@@ -69,8 +67,13 @@ const sequence = ( props ) => {
       (e) What do you think?<br/>
       (f) What do you want?<br/>
       (g) How do you feel?<br/>
-      (h) Ask me questions.<br/><br/>
-      (restart)
+      (h) Ask me questions.<br/>
+      (i) What is important on the internet?<br/>
+      (j) What is the meaning of life <br />
+      (k) What do you love <br/><br/>
+      (x) --->> Talk to another person<br/>
+      (y) --->> Choose another chat<br/>
+      (z) --->> Go back to the very beginning<br/>
       </div>
     )
   } else {

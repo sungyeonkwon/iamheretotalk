@@ -4,11 +4,11 @@ import './App.css';
 import Layout from './components/Layout';
 import Terminal from './containers/Terminal';
 import Prompt from './components/Prompt'
-import ChatLine from './components/ChatLine'
 import Chat from './containers/Chat';
-
 import FileReader from './components/FileReader'
 
+import Typing from 'react-typing-animation';
+import $ from 'jquery';
 
 let optionCount = {
   a: 0,
@@ -19,13 +19,33 @@ let optionCount = {
   f: 0,
   g: 0,
   h: 0,
+  i: 0,
+  j: 0,
+  k: 0,
+}
+
+let inputChatLine = {
+  a: 'Give me a shout.',
+  b: 'What?',
+  c: 'But why?',
+  d: 'Tell me a story.',
+  e: 'What do you think?',
+  f: 'What do you want?',
+  g: 'How do you feel?',
+  h: 'Ask me questions.',
+  i: 'What is important on the internet?',
+  j: 'What does it mean',
+  k: 'What do you love',
 }
 
 let finishedData;
 
-
 class App extends Component {
 
+  // constructor(props) {
+  //   super(props);
+  //   this.myRef = React.createRef();
+  // }
 
   // regulates the sequence, userinput
   state = {
@@ -46,10 +66,12 @@ class App extends Component {
         done: 'Person',
       },
       Person: {
-        a: 'Talk', b: 'Talk', c: 'Talk', d: 'Talk', e: 'Talk', f: 'Talk', g: 'Talk', h: 'Talk',
+        a: 'Talk', b: 'Talk', c: 'Talk', d: 'Talk', e: 'Talk', f: 'Talk', g: 'Talk', h: 'Talk', i: 'Talk',
       },
       Talk: {
-        restart: 'Landing',
+        x: 'Person',
+        y: 'Upload',
+        z: 'Landing',
       },
       Invalid: {
         start: 'Landing',
@@ -65,38 +87,68 @@ class App extends Component {
       fileStatus: null,
   };
 
+  componentWillMount() {
+    console.log("componentWillMount")
+  }
+
   componentDidMount() {
+    this.scrollToBottom();
+  }
+
+  componentDidUpdate() {
+    this.scrollToBottom();
   }
 
   componentWillUnmount() {
+    console.log("componentWillUnmount")
+  }
+
+  scrollToBottom = () => {
+    $(".chat-container").animate({ scrollTop: $(".chat-container")[0].scrollHeight }, 1000);
+    $(".chat-background").css('filter', 'blur(20px)');
+
   }
 
   inputChangedHandler = (event) => {
     this.setState({userInput: event.target.value})
   }
 
+  insertUserChatOption = (userAnswer) => {
+    this.setState({ chatContent: [...this.state.chatContent, inputChatLine[userAnswer]] }, () => {
+      this.insertChatResponse(userAnswer);
+    });
+  }
+
+  insertChatResponse = (userAnswer) => {
+    let addToChatContent = this.updateChatContent(userAnswer, this.state.chosenUser)
+    this.setState({
+      optionToRender: userAnswer,
+      chatContent: [...this.state.chatContent, addToChatContent]
+    })
+  }
+
   keyPressedHandler = (event) => {
     let key = event.keyCode || event.which;
+
     if (key === 13){
       let userAnswer = event.target.value.toLowerCase();
       this.setState({userAnswer:userAnswer})
 
       // if currseq is chat, get optiontorender
       if (this.state.currSeq === 'Person'){
-        //// error setting is not useranswer, need to store not the 'abcd' but the user
+
         let chosenUser = this.state.chatUsers[userAnswer]
-        this.setState({chosenUser: chosenUser})
-
         let seqToRender = this.resHandler(userAnswer)
-        this.setState({renderSeq: seqToRender})
-      } else if (this.state.currSeq === 'Talk' && userAnswer !== 'restart'){
-        let optionToRender = userAnswer
-        let addToChatContent = this.updateChatContent(optionToRender, this.state.chosenUser) // this is a new chosen line to add
-
         this.setState({
-          optionToRender: optionToRender,
-          chatContent: [...this.state.chatContent, addToChatContent]
+          chosenUser: chosenUser,
+          renderSeq: seqToRender,
+          fileStatus: null,
         })
+
+      } else if (this.state.currSeq === 'Talk' && userAnswer !== 'x' && userAnswer !== 'y' && userAnswer !== 'z'){
+
+        this.insertUserChatOption(userAnswer);
+        // this.insertChatResponse(userAnswer);
 
       } else { // otherwise render seq
         let seqToRender = this.resHandler(userAnswer)
@@ -110,11 +162,7 @@ class App extends Component {
   // input: option from the user
   // output: random line from the data object
   updateChatContent = (opt, user) => {
-    console.log("[updateChatContent]", finishedData)
-    console.log("[updateChatContent]]", user)
-
     try {
-      console.log("?????????????", finishedData[user][opt])
       let selectedLine;
       if (optionCount[opt] <= finishedData[user][opt].length - 1){
         selectedLine = finishedData[user][opt][optionCount[opt]]
@@ -127,7 +175,7 @@ class App extends Component {
     }
     catch(error) {
       console.error(error);
-      return 'You did not talk in a right way to me.'
+      return 'You did not talk in the right way to me.'
     }
   }
 
@@ -165,9 +213,7 @@ class App extends Component {
   }
 
   callbackFileHandler = (dataFromChild, users) => {
-      console.log("[callbackFileHandler] inside")
-      console.log("data from child delivered", dataFromChild)
-      console.log("[app.js callbackFileHandler]users", users)
+    console.log("THIS NEEDS TO BE FIRED ONLY ONCE")
       users = users.sort()
       let abcd = 'abcdefghijklmnopqrstuvwxyz'.split('')
       // set the person as per the user data
@@ -192,22 +238,33 @@ class App extends Component {
   }
 
   callbackFileLoading = () => {
-    this.setState({fileStatus: "Loading the file..."})
-    // alert("loading...")
+    this.setState({fileStatus: "Loading the file, please wait..."})
   }
 
   callbackFileLoaded = () => {
-    this.setState({fileStatus: "File successfully uploaded."})
+    this.setState({fileStatus: "File successfully uploaded. Type in 'done' to proceed."})
   }
 
   render() {
     console.log("[APP] this.state.currSeq:",this.state.currSeq)
-    let optionToRender = this.state.optionToRender
-    console.log("[APP] optionToRender", optionToRender)
     let chatContentAll = this.state.chatContent
-    // render line by line
     let chatLineComp = chatContentAll.map((line, i) => {
-      return <ChatLine key={i} lineContent = {line}/>
+      if (i % 2 === 0){
+        return (
+          <div className="chatLine" key={i}>
+            <Typing speed={3} className="chat-text-container you">
+              <Typing.Delay ms={1500} />
+              <span className="chat-text you">{this.state.chosenUser}:<br/> {line}</span>
+            </Typing>
+          </div>)
+      } else {
+        return (
+          <div className="chatLine" key={i}>
+            <Typing speed={3} className="chat-text-container me">
+              <span className="chat-text me">{line}</span>
+            </Typing>
+          </div>)
+      }
     })
 
     return (
@@ -222,12 +279,9 @@ class App extends Component {
               callbackFileLoading={this.callbackFileLoading}
               callbackFileLoaded={this.callbackFileLoaded}
               />
-          {this.state.fileStatus === null? <div></div>:
-            <div>
-            {this.state.fileStatus}<br/>
-            Please type in 'done' to proceed.
-            </div>}
-
+            {this.state.fileStatus === null?
+            <div></div>:
+            <div>{this.state.fileStatus}<br/></div>}
             <Prompt userInput = {this.state.userInput}/>
             <input
               type="text"
@@ -247,14 +301,13 @@ class App extends Component {
               value={this.state.userInput} />
           </Terminal>
         }
-
+          <div className="chat-background"></div>
           <Chat
             choice={this.state.userAnswer}
             optionToRender={this.state.optionToRender}
             content={this.state.chatContent}>
             {chatLineComp}
           </Chat>
-
         </Layout>
       </div>
     );
