@@ -134,133 +134,49 @@ function getPatternK(line){
   return null
 }
 
+function pushPattern(element, func, id, data, user ) {
+  // element: each raw line string
+  // func: pattern func
+  // id: pattern id
+  // data: obj to store processed data
+  // user: string
+  
+  let result = func(element)
+  if (result !== null ){
+    if (data[user]){
+      if(data[user][id]){
+        data[user][id].push(...result)
+      } else {
+        data[user][id] = []
+      }
+    } else {
+      data[user] = {};
+    }
+  }
+}
+
 function processData(rawLineData) {
 
-  // console.log("[processData] rawLineData", rawLineData)
   rawLineData.forEach(function(element){
 
     let userName;
     try {
       userName = getUser(element)
-
-      // function that takes: element, alphabetID, patternfunction, dataStorage (object), username(string)
-      // if the result is not null,
-      // push it to the
-
-      // element: each raw line string
-      // func: pattern func
-      // id: pattern id
-      // data: obj to store processed data
-      // user: string
-      const pushPattern = (element, func, id, data, user ) => {
-        let result = func(element)
-        if ( result !== null ){
-          if (data[user][id]){
-            data[user][id].push(...result)
-          } else {
-            data[user][id] = [];
-          }
-        }
-      }
-
-      let resultA = getPatternA(element)
-      let resultB = getPatternB(element)
-      let resultC = getPatternC(element)
-      let resultD = getPatternD(element)
-      let resultE = getPatternE(element)
-      let resultF = getPatternF(element)
-      let resultG = getPatternG(element)
-      let resultH = getPatternH(element)
-      let resultI = getPatternI(element)
-      let resultJ = getPatternJ(element)
-      let resultK = getPatternK(element)
-
-      if (dataStorage[userName]){
-        if ( resultA !== null ){
-          dataStorage[userName].a.push(...resultA)
-        }
-        if ( resultB !== null ){
-          dataStorage[userName].b.push(...resultB)
-        }
-        if ( resultC !== null ){
-          dataStorage[userName].c.push(...resultC)
-        }
-        if ( resultD !== null ){
-          dataStorage[userName].d.push(...resultD)
-        }
-        if ( resultE !== null ){
-          dataStorage[userName].e.push(...resultE)
-        }
-        if ( resultF !== null ){
-          dataStorage[userName].f.push(...resultF)
-        }
-        if ( resultG !== null ){
-          dataStorage[userName].g.push(...resultG)
-        }
-        if ( resultH !== null ){
-          dataStorage[userName].h.push(...resultH)
-        }
-        if ( resultI !== null ){
-          dataStorage[userName].i.push(...resultI)
-        }
-        if ( resultJ !== null ){
-          dataStorage[userName].j.push(...resultJ)
-        }
-        if ( resultK !== null ){
-          dataStorage[userName].k.push(...resultK)
-        }
-      } else {
-        dataStorage[userName] = {
-          a: [],
-          b: [],
-          c: [],
-          d: [],
-          e: [],
-          f: [],
-          g: [],
-          h: [],
-          i: [],
-          j: [],
-          k: [],
-        }
-        if ( resultA !== null ){
-          dataStorage[userName].a.push(...resultA)
-        }
-        if ( resultB !== null ){
-          dataStorage[userName].b.push(...resultB)
-        }
-        if ( resultC !== null ){
-          dataStorage[userName].c.push(...resultC)
-        }
-        if ( resultD !== null ){
-          dataStorage[userName].d.push(...resultD)
-        }
-        if ( resultE !== null ){
-          dataStorage[userName].e.push(...resultE)
-        }
-        if ( resultF !== null ){
-          dataStorage[userName].f.push(...resultF)
-        }
-        if ( resultG !== null ){
-          dataStorage[userName].g.push(...resultG)
-        }
-        if ( resultH !== null ){
-          dataStorage[userName].h.push(...resultH)
-        }
-        if ( resultI !== null ){
-          dataStorage[userName].i.push(...resultI)
-        }
-        if ( resultJ !== null ){
-          dataStorage[userName].j.push(...resultJ)
-        }
-        if ( resultK !== null ){
-          dataStorage[userName].k.push(...resultK)
-        }
-      }
+      pushPattern(element, getPatternA, 'a', dataStorage, userName)
+      pushPattern(element, getPatternB, 'b', dataStorage, userName)
+      pushPattern(element, getPatternC, 'c', dataStorage, userName)
+      pushPattern(element, getPatternD, 'd', dataStorage, userName)
+      pushPattern(element, getPatternE, 'e', dataStorage, userName)
+      pushPattern(element, getPatternF, 'f', dataStorage, userName)
+      pushPattern(element, getPatternG, 'g', dataStorage, userName)
+      pushPattern(element, getPatternH, 'h', dataStorage, userName)
+      pushPattern(element, getPatternI, 'i', dataStorage, userName)
+      pushPattern(element, getPatternJ, 'j', dataStorage, userName)
+      pushPattern(element, getPatternK, 'k', dataStorage, userName)
 
     }
-    catch(error) {
-      console.error("Tried to get the uer name BUT ", error, element);
+    catch(error) { // multiple line cases, ignore it for now
+      // console.error("Tried to get the uer name BUT ", error, element);
     }
 
   });
