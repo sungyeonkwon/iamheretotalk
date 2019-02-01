@@ -21,20 +21,12 @@ function removeEmojis(string) {
 }
 
 function getUser(line){
-  // console.log("line from getuser", line)
   line = removeEmojis(line)
   let regex = /:[0-9][0-9]] [a-zA-Z]+:/ig,
       matched = line.match(regex).toString(),
       user = matched.substring(5, matched.length - 1);
   return user // returns a string
 }
-
-// function getContent(line){ // refactor this with getUser
-//   let regex = /.*:[0-9][0-9]] [a-zA-Z]+:/ig,
-//       matched = line.match(regex).toString(),
-//       user = matched.substring(5, matched.length - 1);
-//   return line.substring(matched.length + 1)
-// }
 
 function getPatternA(line){
   // sentence ending with '!'
@@ -46,7 +38,6 @@ function getPatternA(line){
   return matched // returns an array
 }
 
-// DONE
 function getPatternB(line){
   // uppercase only sentence
   let regex = /[^a-z.!?:]{25,}/g,
@@ -76,7 +67,6 @@ function getPatternD(line){
 
 function getPatternE(line){
   // What do you think?: '(sentence ending) I think...'
-  // need to be preceded with [(: )(. )(! )(? )]
   let regex = /\W( I think)\s[^.!?:]*[.!\nA-Z]{1}$/ig,
       matched = line.match(regex);
   if (matched) {
@@ -97,7 +87,7 @@ function getPatternF(line){
 }
 
 function getPatternG(line){
-  // how do you feel?': I feel...
+  // how do you feel?
   let regex = /\W( I feel)\s[^.!?:]*[.!\nA-Z]{1}$/ig,
       matched = line.match(regex);
   if (matched) {
@@ -152,6 +142,27 @@ function processData(rawLineData) {
     let userName;
     try {
       userName = getUser(element)
+
+      // function that takes: element, alphabetID, patternfunction, dataStorage (object), username(string)
+      // if the result is not null,
+      // push it to the
+
+      // element: each raw line string
+      // func: pattern func
+      // id: pattern id
+      // data: obj to store processed data
+      // user: string
+      const pushPattern = (element, func, id, data, user ) => {
+        let result = func(element)
+        if ( result !== null ){
+          if (data[user][id]){
+            data[user][id].push(...result)
+          } else {
+            data[user][id] = [];
+          }
+        }
+      }
+
       let resultA = getPatternA(element)
       let resultB = getPatternB(element)
       let resultC = getPatternC(element)
@@ -249,12 +260,11 @@ function processData(rawLineData) {
 
     }
     catch(error) {
-      console.error("tried to get the uer name BUT ", error, element);
-      userName = "Placeholder"
+      console.error("Tried to get the uer name BUT ", error, element);
     }
 
   });
-  console.log("this is the stored data", dataStorage)
+  console.log("Final processed data", dataStorage)
   return dataStorage
 }
 
@@ -269,31 +279,31 @@ const fileReader = (props) => {
     props.callbackFileLoaded()
   }
 
-  const handleFile = (file) => {
-    console.log("handleFile", file)
-    fileLoading();
-    const reader = new FileReader();
-    reader.onload = (event) => {
-        const file = event.target.result;
-        const allLines = file.split(/\r\n|\n/);
-        // Reading line by line
-        allLines.forEach((line) => {
-            lineArrRawData = [...lineArrRawData, line]
-        });
-
-        // sending data
-        let shuffledLineRawData = getShuffledArr(lineArrRawData)
-        let finalData = processData(shuffledLineRawData)
-        let users = Object.keys(finalData)
-        props.callbackFromParent(finalData, users)
-        fileLoaded();
-    };
-    reader.onerror = (event) => {
-        alert(event.target.error.name);
-    };
-    reader.readAsText(file);
-  }
-
+  // const handleFile = (file) => {
+  //   console.log("handleFile", file)
+  //   fileLoading();
+  //   const reader = new FileReader();
+  //   reader.onload = (event) => {
+  //       const file = event.target.result;
+  //       const allLines = file.split(/\r\n|\n/);
+  //
+  //       // Read line by line
+  //       allLines.forEach((line) => {
+  //           lineArrRawData = [...lineArrRawData, line]
+  //       });
+  //
+  //       // Send data
+  //       let shuffledLineRawData = getShuffledArr(lineArrRawData)
+  //       let finalData = processData(shuffledLineRawData)
+  //       let users = Object.keys(finalData)
+  //       props.callbackFromParent(finalData, users)
+  //       fileLoaded();
+  //   };
+  //   reader.onerror = (event) => {
+  //       alert(event.target.error.name);
+  //   };
+  //   reader.readAsText(file);
+  // }
 
   const handleFileDrop = (event, file) => {
 
@@ -303,12 +313,13 @@ const fileReader = (props) => {
     reader.onload = (event) => {
         const file = event.target.result;
         const allLines = file.split(/\r\n|\n/);
-        // Reading line by line
+
+        // Read line by line
         allLines.forEach((line) => {
             lineArrRawData = [...lineArrRawData, line]
         });
 
-        // sending data
+        // Send data
         let shuffledLineRawData = getShuffledArr(lineArrRawData)
         let finalData = processData(shuffledLineRawData)
         let users = Object.keys(finalData)
