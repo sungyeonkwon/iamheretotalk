@@ -92,11 +92,19 @@ function getPatternG(line){
       matched = line.match(regex);
   if (matched) {
     matched = new Array(matched.toString().substring(2,3).toUpperCase() + matched.toString().substring(3))
+    if (matched.toString().length >= 12) return matched
   }
-  return matched
+  return null
 }
 
 function getPatternH(line){
+  // how do you *really* feel?
+  let regex = /[\u2700-\u27bf]|(?:\ud83c[\udde6-\uddff]){2}|[\ud800-\udbff][\udc00-\udfff]|[\u0023-\u0039]\ufe0f?\u20e3|\u3299|\u3297|\u303d|\u3030|\u24c2|\ud83c[\udd70-\udd71]|\ud83c[\udd7e-\udd7f]|\ud83c\udd8e|\ud83c[\udd91-\udd9a]|\ud83c[\udde6-\uddff]|\ud83c[\ude01-\ude02]|\ud83c\ude1a|\ud83c\ude2f|\ud83c[\ude32-\ude3a]|\ud83c[\ude50-\ude51]|\u203c|\u2049|[\u25aa-\u25ab]|\u25b6|\u25c0|[\u25fb-\u25fe]|\u00a9|\u00ae|\u2122|\u2139|\ud83c\udc04|[\u2600-\u26FF]|\u2b05|\u2b06|\u2b07|\u2b1b|\u2b1c|\u2b50|\u2b55|\u231a|\u231b|\u2328|\u23cf|[\u23e9-\u23f3]|[\u23f8-\u23fa]|\ud83c\udccf|\u2934|\u2935|[\u2190-\u21ff]/g,
+  matched = line.match(regex);
+  return matched
+}
+
+function getPatternI(line){
   // Ask me questions. sentence ending with ?
   let regex = /\b[A-Z][^.!?:]{25,}\?$/ig,
       matched = line.match(regex);
@@ -106,14 +114,14 @@ function getPatternH(line){
   return matched
 }
 
-function getPatternI(line){
+function getPatternJ(line){
   // url
   let regex = /(www\.|http:|https:)+[^\s]+[\w]/ig,
       matched = line.match(regex);
   return matched
 }
 
-function getPatternJ(line){
+function getPatternK(line){
   // what does it mean?
   let regex = /(means)\s[^.!?:]*[.!\nA-Z]{1}$/ig,
       matched = line.match(regex);
@@ -123,9 +131,9 @@ function getPatternJ(line){
   return matched
 }
 
-function getPatternK(line){
+function getPatternL(line){
   // what do you love?
-  let regex = /\W( I love)\s[^.!?:]*[.!\nA-Z]{1}$/ig,
+  let regex = /\W( I love)\s(?!it)(?!this)[^.!?:]*[.!\nA-Z]{1}$/ig,
       matched = line.match(regex);
   if (matched) {
     matched = new Array(matched.toString().substring(2,3).toUpperCase() + matched.toString().substring(3))
@@ -173,6 +181,7 @@ function processData(rawLineData) {
       pushPattern(element, getPatternI, 'i', dataStorage, userName)
       pushPattern(element, getPatternJ, 'j', dataStorage, userName)
       pushPattern(element, getPatternK, 'k', dataStorage, userName)
+      pushPattern(element, getPatternL, 'l', dataStorage, userName)
 
     }
     catch(error) { // multiple line cases, ignore it for now
@@ -194,32 +203,6 @@ const fileReader = (props) => {
   const fileLoaded = () => {
     props.callbackFileLoaded()
   }
-
-  // const handleFile = (file) => {
-  //   console.log("handleFile", file)
-  //   fileLoading();
-  //   const reader = new FileReader();
-  //   reader.onload = (event) => {
-  //       const file = event.target.result;
-  //       const allLines = file.split(/\r\n|\n/);
-  //
-  //       // Read line by line
-  //       allLines.forEach((line) => {
-  //           lineArrRawData = [...lineArrRawData, line]
-  //       });
-  //
-  //       // Send data
-  //       let shuffledLineRawData = getShuffledArr(lineArrRawData)
-  //       let finalData = processData(shuffledLineRawData)
-  //       let users = Object.keys(finalData)
-  //       props.callbackFromParent(finalData, users)
-  //       fileLoaded();
-  //   };
-  //   reader.onerror = (event) => {
-  //       alert(event.target.error.name);
-  //   };
-  //   reader.readAsText(file);
-  // }
 
   const handleFileDrop = (event, file) => {
 
@@ -256,6 +239,12 @@ const fileReader = (props) => {
     uploaded = 'uploaded'
     zoneText = 'File Successfully Uploaded'
   }
+
+  // garbage collection for the data
+  if (props.collGarbage) {
+    dataStorage = {};
+  }
+  console.log("dataStorage", dataStorage)
 
   return (
       <div className="upload">

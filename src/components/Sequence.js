@@ -77,17 +77,18 @@ const sequence = ( props ) => {
       ------------------------------------------<br/>
       Ready to talk. What do you want to say?<br/>
       ------------------------------------------<br/>
-      (a) Give me a shout.<br/>
-      (b) What?<br/>
+      (a) What?<br/>
+      (b) Give me a shout.<br/>
       (c) But why?<br/>
       (d) Tell me what you need to say.<br/>
       (e) What do you think?<br/>
       (f) What do you want?<br/>
       (g) How do you feel?<br/>
-      (h) Ask me a question.<br/>
-      (i) What is important on the internet?<br/>
-      (j) What does it mean? <br />
-      (k) What do you love <br/>
+      (h) How do you *really* feel?<br/>
+      (i) Ask me a question.<br/>
+      (j) What is important on the internet?<br/>
+      (k) What does it mean? <br />
+      (l) What do you love <br/>
       ------------------------------------------<br/>
       If you are done with this conversation, <br/>you can:<br/>
       ------------------------------------------<br/>

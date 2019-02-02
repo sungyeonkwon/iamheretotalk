@@ -28,7 +28,15 @@ li, ul {
   	width: 100wh;
   	height: 100vh;
   	color: #fff;
-    background:black;
+    background: #3a6186;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to left, #89253e, #3a6186);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to left, #89253e, #3a6186); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+    /* background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
+    background-size: 400% 400%;
+    -webkit-animation: Gradient 15s ease infinite;
+    -moz-animation: Gradient 15s ease infinite;
+    animation: Gradient 15s ease infinite; */
   }
 
   @-webkit-keyframes Gradient {
@@ -74,7 +82,7 @@ li, ul {
   width:50%;
   height:100%;
   float:left;
-  padding:45px;
+  padding:40px;
   overflow: scroll;
   overflow-x: auto;
   word-wrap: break-word;
@@ -84,7 +92,7 @@ li, ul {
 }
 
 .chat-container {
-  padding-bottom:200px;
+  padding: 55px 70px 250px 70px !important;
   right:0;
   color:white;
   display: inline-block;
@@ -123,6 +131,7 @@ input[type=text] {
   position: relative;
   height: 100px;
   width: 100%;
+  background-color:transparent;
 }
 
 .file-drop > .file-drop-target {
@@ -135,6 +144,7 @@ input[type=text] {
   max-width: 410px;
   border-radius: 1px;
   border:1px dashed white;
+  background-color:transparent;
   padding:20px 0;
 
   display: flex;
@@ -200,15 +210,16 @@ input[type=text] {
 .chatLine {
   width:100%;
   position:relative;
-  margin-bottom:30px;
+  margin-bottom:35px;
 }
 .chat-text {
   font-size:28px;
-  line-height: 2.5rem;
-  background:rgba(0,0,0,0.55);
-  -webkit-box-shadow: 0px 0px 76px 0px rgba(255, 204, 204,1);
-  -moz-box-shadow: 0px 0px 76px 0px rgba(255, 204, 204,1);
-  box-shadow: 0px 0px 76px 0px rgba(255, 204, 204,1);
+  line-height: 2.9rem;
+  padding:3px 0;
+  background:rgba(100,90,110,0.55);
+  -webkit-box-shadow: 0px 0px 46px 0px rgba(255, 204, 204,1);
+  -moz-box-shadow: 0px 0px 46px 0px rgba(255, 204, 204,1);
+  box-shadow: 0px 0px 46px 0px rgba(255, 204, 204,1);
   width:100%;
   box-sizing: border-box;
 
@@ -220,7 +231,7 @@ input[type=text] {
 }
 
 .chat-text.me {
-  background:rgba(0,200,0,0.5);
+  background:rgba(255, 204, 204,0.5);
 }
 .chat-text-container {
   z-index:10;
@@ -243,5 +254,6 @@ input[type=text] {
   z-index:-9999;
 }
 #root {
+  position:absolute;
   z-index:999;
 }

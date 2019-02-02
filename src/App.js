@@ -22,20 +22,22 @@ let optionCount = {
   i: 0,
   j: 0,
   k: 0,
+  l: 0,
 }
 
 let inputChatLine = {
-  a: 'Give me a shout.',
-  b: 'What?',
+  a: 'What?',
+  b: 'Give me a shout.',
   c: 'But why?',
   d: 'Tell me what you need to say.',
   e: 'What do you think?',
   f: 'What do you want?',
   g: 'How do you feel?',
-  h: 'Ask me a question.',
-  i: 'What is important on the internet?',
-  j: 'What does it mean?',
-  k: 'What do you love?',
+  h: 'How do you *really* feel?',
+  i: 'Ask me a question.',
+  j: 'What is important on the internet?',
+  k: 'What does it mean?',
+  l: 'What do you love?',
 }
 
 let finishedData;
@@ -81,6 +83,7 @@ class App extends Component {
       optionToRender: null,
       fileStatus: null,
       fileUploaded: false,
+      collGarbage: false,
 
   };
 
@@ -102,7 +105,6 @@ class App extends Component {
 
   scrollToBottom = () => {
     $(".chat-container").animate({ scrollTop: $(".chat-container")[0].scrollHeight }, 1000);
-    $(".chat-background").css('filter', 'blur(20px)');
   }
 
   inputChangedHandler = (event) => {
@@ -258,6 +260,7 @@ class App extends Component {
       }, () => {this.createUserColors()})
 
       finishedData = dataFromChild
+      this.setState({collGarbage: true});
   }
 
   callbackFileLoading = () => {
@@ -275,7 +278,7 @@ class App extends Component {
   createUserColors = () => {
     // retrive all users and assign colors to it
     let users = Object.values(this.state.chatUsers)
-    let colors = ['darkred', 'darkblue', 'purple', 'green', 'green']
+    let colors = ['rgba(240,20,15,0.4)', 'rgba(50,40,205,0.3)', 'rgba(160,20,175,0.4)', 'rgba(20,220,45,0.4)', 'rgba(140,120,15,0.4)']
     let chatUserColors = {}
     if (users.length !== 0) {
       users.map((user, i) => {
@@ -294,7 +297,7 @@ class App extends Component {
     if (this.state.chosenUser){
       user = this.state.chosenUser + ':'
     } else {
-      user = 'Hey.'
+      user = 'Hello.'
     }
 
     let chatLineComp = chatContentAll.map((line, i) => {
@@ -306,7 +309,7 @@ class App extends Component {
       if (i % 2 === 0){
         return (
           <div className="chatLine" key={i}>
-            <Typing speed={3} className="chat-text-container you">
+            <Typing speed={5} className="chat-text-container you">
               <Typing.Delay ms={1500} />
               <span style={{ backgroundColor: this.state.chatUserColors[this.state.chatUserHistory[i]] }} className="chat-text you">{user}<br/>{line}</span>
             </Typing>
@@ -314,8 +317,8 @@ class App extends Component {
       } else { // me
         return (
           <div className="chatLine" key={i}>
-            <Typing speed={3} className="chat-text-container me">
-              <span style={{ backgroundColor: 'grey'}} className="chat-text me">{line}</span>
+            <Typing speed={5} className="chat-text-container me">
+              <span style={{ backgroundColor: 'rgba(100,90,110,0.55)'}} className="chat-text me">{line}</span>
             </Typing>
           </div>)
       }
@@ -333,6 +336,7 @@ class App extends Component {
               callbackFileLoading={this.callbackFileLoading}
               callbackFileLoaded={this.callbackFileLoaded}
               uploaded={this.state.fileUploaded}
+              collGarbage={this.state.collGarbage}
               />
             {this.state.fileStatus === null?
             <div></div>:
