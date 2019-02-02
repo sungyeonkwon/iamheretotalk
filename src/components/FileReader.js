@@ -140,7 +140,7 @@ function pushPattern(element, func, id, data, user ) {
   // id: pattern id
   // data: obj to store processed data
   // user: string
-  
+
   let result = func(element)
   if (result !== null ){
     if (data[user]){
@@ -248,13 +248,22 @@ const fileReader = (props) => {
     reader.readAsText(file.dataTransfer.files[0]);
   }
 
+  // when uploaded == true, change style and text
+  let zoneText = 'Drop file here'
+  let uploaded;
+  if (props.uploaded){
+    console.log("props.uploaded", props.uploaded)
+    uploaded = 'uploaded'
+    zoneText = 'File Successfully Uploaded'
+  }
+
   return (
       <div className="upload">
-        <div id="react-file-drop-demo">
+        <div id="react-file-drop" className = {uploaded}>
           <FileDrop
             onDrop={ (event,file) => handleFileDrop(event, file) }
-            onDragLeave={() => fileLoading()} >
-            %
+            onFrameDrop={() => fileLoading()} >
+            {zoneText}
           </FileDrop>
         </div>
       </div>

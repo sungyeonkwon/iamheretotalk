@@ -28,24 +28,19 @@ let inputChatLine = {
   a: 'Give me a shout.',
   b: 'What?',
   c: 'But why?',
-  d: 'Tell me a story.',
+  d: 'Tell me what you need to say.',
   e: 'What do you think?',
   f: 'What do you want?',
   g: 'How do you feel?',
-  h: 'Ask me questions.',
+  h: 'Ask me a question.',
   i: 'What is important on the internet?',
-  j: 'What does it mean',
-  k: 'What do you love',
+  j: 'What does it mean?',
+  k: 'What do you love?',
 }
 
 let finishedData;
 
 class App extends Component {
-
-  // constructor(props) {
-  //   super(props);
-  //   this.myRef = React.createRef();
-  // }
 
   // regulates the sequence, userinput
   state = {
@@ -54,7 +49,7 @@ class App extends Component {
       prevSeq: 'Landing',
       currSeq: 'Landing',
       nextSeq: '',
-      backontrackseq: 'Landing',
+      backontrackSeq: 'Landing',
       Landing: {
         a: 'Info',
         b: 'Upload',
@@ -63,10 +58,9 @@ class App extends Component {
         a: 'Upload',
       },
       Upload: {
-        done: 'Person',
+        a: 'Person',
       },
       Person: {
-        a: 'Talk', b: 'Talk', c: 'Talk', d: 'Talk', e: 'Talk', f: 'Talk', g: 'Talk', h: 'Talk', i: 'Talk',
       },
       Talk: {
         x: 'Person',
@@ -75,16 +69,19 @@ class App extends Component {
       },
       Invalid: {
         start: 'Landing',
-        back: ''
       },
       renderSeq: 'Landing',
       chatContent: [
         'I\'m here to talk.',
       ],
       chatUsers:{},
+      chatUserColors: {},
+      chatUserHistory: {},
       chosenUser: '',
       optionToRender: null,
       fileStatus: null,
+      fileUploaded: false,
+
   };
 
   componentWillMount() {
@@ -106,7 +103,6 @@ class App extends Component {
   scrollToBottom = () => {
     $(".chat-container").animate({ scrollTop: $(".chat-container")[0].scrollHeight }, 1000);
     $(".chat-background").css('filter', 'blur(20px)');
-
   }
 
   inputChangedHandler = (event) => {
@@ -114,16 +110,22 @@ class App extends Component {
   }
 
   insertUserChatOption = (userAnswer) => {
-    this.setState({ chatContent: [...this.state.chatContent, inputChatLine[userAnswer]] }, () => {
+    this.setState({
+      chatContent: [...this.state.chatContent, inputChatLine[userAnswer]],
+    }, () => {
       this.insertChatResponse(userAnswer);
     });
   }
 
   insertChatResponse = (userAnswer) => {
+    let chatLength = this.state.chatContent.length
     let addToChatContent = this.updateChatContent(userAnswer, this.state.chosenUser)
     this.setState({
       optionToRender: userAnswer,
-      chatContent: [...this.state.chatContent, addToChatContent]
+      chatContent: [...this.state.chatContent, addToChatContent],
+      chatUserHistory: Object.assign(this.state.chatUserHistory, {
+        [chatLength]: this.state.chosenUser,
+      })
     })
   }
 
@@ -134,7 +136,6 @@ class App extends Component {
       let userAnswer = event.target.value.toLowerCase();
       this.setState({userAnswer:userAnswer})
 
-      // if currseq is chat, get optiontorender
       if (this.state.currSeq === 'Person'){
 
         let chosenUser = this.state.chatUsers[userAnswer]
@@ -143,12 +144,12 @@ class App extends Component {
           chosenUser: chosenUser,
           renderSeq: seqToRender,
           fileStatus: null,
+          fileUploaded: false,
         })
 
       } else if (this.state.currSeq === 'Talk' && userAnswer !== 'x' && userAnswer !== 'y' && userAnswer !== 'z'){
 
         this.insertUserChatOption(userAnswer);
-        // this.insertChatResponse(userAnswer);
 
       } else { // otherwise render seq
         let seqToRender = this.resHandler(userAnswer)
@@ -164,13 +165,17 @@ class App extends Component {
   updateChatContent = (opt, user) => {
     try {
       let selectedLine;
-      if (optionCount[opt] <= finishedData[user][opt].length - 1){
+
+      if (finishedData[user][opt].length === 0) {
+        selectedLine = "I don't know what to say."
+      } else if (optionCount[opt] <= finishedData[user][opt].length - 1){
         selectedLine = finishedData[user][opt][optionCount[opt]]
         optionCount[opt] += 1
       } else {
         optionCount[opt] = 0
         selectedLine = finishedData[user][opt][optionCount[opt]]
       }
+
       return selectedLine;
     }
     catch(error) {
@@ -180,6 +185,7 @@ class App extends Component {
   }
 
   resHandler = (res) => {
+
     let currSeq = this.state.currSeq
     let nextSeq = this.state[currSeq][res]
 
@@ -198,7 +204,7 @@ class App extends Component {
         return 'Invalid'
       } else { // if the currseq is not 'invalid', render Invalid
         this.setState({
-          backontrackseq: currSeq,
+          backontrackSeq: currSeq,
           Invalid: {
             start: 'Landing',
             back: currSeq,
@@ -213,7 +219,7 @@ class App extends Component {
   }
 
   callbackFileHandler = (dataFromChild, users) => {
-    console.log("THIS NEEDS TO BE FIRED ONLY ONCE")
+    console.log("THIS IS TO BE FIRED ONLY ONCE")
       users = users.sort()
       let abcd = 'abcdefghijklmnopqrstuvwxyz'.split('')
       // set the person as per the user data
@@ -231,37 +237,85 @@ class App extends Component {
           return acc;
       }, {});
 
+
+      let PersonObj = Object.keys(userObj).map((key, i) => {
+        return ({ [key]: 'Talk' })
+      });
+
+      // merge objects for chat users
+      PersonObj = PersonObj.reduce(function(acc, x) {
+          for (var key in x) {
+            if (x[key]){
+              acc[key] = x[key];
+            }
+          }
+          return acc;
+      }, {});
+
       this.setState({
         chatUsers: userObj,
-      })
+        Person: PersonObj,
+      }, () => {this.createUserColors()})
+
       finishedData = dataFromChild
   }
 
   callbackFileLoading = () => {
-    this.setState({fileStatus: "Loading the file, please wait..."})
+    this.setState({fileStatus: "Uploading the file, please wait..."})
   }
 
   callbackFileLoaded = () => {
-    this.setState({fileStatus: "File successfully uploaded. Type in 'done' to proceed."})
+    this.setState({
+      fileStatus: "(a) Proceed to start a conversation.",
+      fileUploaded: true,
+    })
+
+  }
+
+  createUserColors = () => {
+    // retrive all users and assign colors to it
+    let users = Object.values(this.state.chatUsers)
+    let colors = ['darkred', 'darkblue', 'purple', 'green', 'green']
+    let chatUserColors = {}
+    if (users.length !== 0) {
+      users.map((user, i) => {
+        chatUserColors[user] = colors[i]
+      })
+    }
+    this.setState({chatUserColors: chatUserColors}, () => console.log(this.state.chatUserColors))
   }
 
   render() {
-    console.log("[APP] this.state.currSeq:",this.state.currSeq)
+    console.log("[APP] this.state.currSeq:", this.state.currSeq)
+
+    // user name config
     let chatContentAll = this.state.chatContent
+    let user;
+    if (this.state.chosenUser){
+      user = this.state.chosenUser + ':'
+    } else {
+      user = 'Hey.'
+    }
+
     let chatLineComp = chatContentAll.map((line, i) => {
+      var userColor = {
+        backgroundColor: this.state.chatUserColors[this.state.chosenUser],
+      };
+
+      // you
       if (i % 2 === 0){
         return (
           <div className="chatLine" key={i}>
             <Typing speed={3} className="chat-text-container you">
               <Typing.Delay ms={1500} />
-              <span className="chat-text you">{this.state.chosenUser}:<br/> {line}</span>
+              <span style={{ backgroundColor: this.state.chatUserColors[this.state.chatUserHistory[i]] }} className="chat-text you">{user}<br/>{line}</span>
             </Typing>
           </div>)
-      } else {
+      } else { // me
         return (
           <div className="chatLine" key={i}>
             <Typing speed={3} className="chat-text-container me">
-              <span className="chat-text me">{line}</span>
+              <span style={{ backgroundColor: 'grey'}} className="chat-text me">{line}</span>
             </Typing>
           </div>)
       }
@@ -278,6 +332,7 @@ class App extends Component {
               callbackFromParent={this.callbackFileHandler}
               callbackFileLoading={this.callbackFileLoading}
               callbackFileLoaded={this.callbackFileLoaded}
+              uploaded={this.state.fileUploaded}
               />
             {this.state.fileStatus === null?
             <div></div>:
