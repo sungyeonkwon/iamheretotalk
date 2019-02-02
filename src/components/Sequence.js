@@ -27,7 +27,7 @@ const sequence = ( props ) => {
       Select an option by typing in the letter inside the brackets:<br/>
       ------------------------------------------<br/>
       (a) What is this?<br/>
-      (b) I know what this is, let me proceed.<br/>
+      (b) I know what this is, let me proceed.
       </div>
     )
   } else if (sequenceToRender=== "Info") {
@@ -42,7 +42,7 @@ const sequence = ( props ) => {
       ------------------------------------------<br/>
       * This app does not store your data – in fact, it doesn't have a database. If you feel incredulous, you can check the codebase at https://github.com/sungyeonkwon/iamheretotalk Enough said; now, initiate a chat.<br/>
       ------------------------------------------<br/>
-      (a) Okay, I'm ready to upload my chat.<br/>
+      (a) Okay, I'm ready to upload the chat file.
       </div>
     )
   } else if (sequenceToRender === "Invalid") {
@@ -53,7 +53,7 @@ const sequence = ( props ) => {
       When you're ready to comply, type in:<br/>
       ------------------------------------------<br/>
       (back) to go back where you were <br/>
-      (start) to go back to the beginning <br/>
+      (start) to go back to the beginning
       </div>
     )
   } else if (sequenceToRender === "Upload"){
@@ -68,7 +68,7 @@ const sequence = ( props ) => {
       ------------------------------------------<br/>
       Select who you want to talk to:<br/>
       ------------------------------------------<br/>
-      {userOptions}<br/>
+      {userOptions}
       </div>
     )
   } else if (sequenceToRender === "Talk") {
@@ -95,7 +95,7 @@ const sequence = ( props ) => {
       ------------------------------------------<br/>
       (x) Talk to another person.<br/>
       (y) Choose another chat.<br/>
-      (z) Go back to the very beginning.<br/>
+      (z) Go back to the very beginning.
       </div>
     )
   } else {
