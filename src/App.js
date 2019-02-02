@@ -282,7 +282,10 @@ class App extends Component {
       fileStatus: "(a) Proceed to start a conversation.",
       fileUploaded: true,
     })
+  }
 
+  createMarkup = () => {
+    // return { __html: 'First <strong>test</strong> Second' };
   }
 
   createUserColors = () => {
@@ -316,18 +319,25 @@ class App extends Component {
       };
 
       // you
-      if (i % 2 === 0){
+      if ( i === 0 ){
         return (
           <div className="chatLine" key={i}>
-            <Typing speed={5} className="chat-text-container you">
+            <Typing speed={15} className="chat-text-container you">
+              <span style={{ backgroundColor: this.state.chatUserColors[this.state.chatUserHistory[i]] }} className="chat-text you" dangerouslySetInnerHTML={this.createMarkup()}>{user}<br/>{line}</span>
+            </Typing>
+          </div>)
+      } else if (i % 2 === 0) {
+        return (
+          <div className="chatLine" key={i}>
+            <Typing speed={10} className="chat-text-container you">
               <Typing.Delay ms={1500} />
-              <span style={{ backgroundColor: this.state.chatUserColors[this.state.chatUserHistory[i]] }} className="chat-text you">{user}<br/>{line}</span>
+              <span style={{ backgroundColor: this.state.chatUserColors[this.state.chatUserHistory[i]] }} className="chat-text you" dangerouslySetInnerHTML={this.createMarkup()}>{user}<br/>{line}</span>
             </Typing>
           </div>)
       } else { // me
         return (
           <div className="chatLine" key={i}>
-            <Typing speed={5} className="chat-text-container me">
+            <Typing speed={10} className="chat-text-container me">
               <span style={{ backgroundColor: 'rgba(100,90,110,0.55)'}} className="chat-text me">{line}</span>
             </Typing>
           </div>)
@@ -357,7 +367,7 @@ class App extends Component {
               onChange={this.inputChangedHandler}
               onKeyPress={this.keyPressedHandler}
               value={this.state.userInput} />
-            <a class="twitter-share-button"
+            <a className="twitter-share-button"
                href="https://twitter.com/intent/tweet?text=I%20talked%20to%20you:%20http://iamheretotalk.online"
                target="_blank">
               Tweet this thing</a>

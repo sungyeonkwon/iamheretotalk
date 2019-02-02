@@ -205,7 +205,6 @@ function processData(rawLineData) {
   return dataStorage
 }
 
-
 const fileReader = (props) => {
 
   const fileLoading = () => {

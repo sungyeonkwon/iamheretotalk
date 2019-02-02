@@ -5,7 +5,7 @@ html, body {
   padding: 0;
   font-size:15px;
   font-family: 'IBM Plex Mono', monospace;
-  line-height: 1.5rem;
+  line-height: 1.45rem;
   height:100%;
 }
 
@@ -52,12 +52,12 @@ li, ul {
   word-wrap: break-word;
 }
 .terminal-container {
-  padding: 64px 35px 35px 35px;
+  padding: 42px 35px 35px 35px;
   left:0;
 }
 
 .chat-container {
-  padding: 64px 70px 250px 70px;
+  padding: 50px 70px 250px 70px;
   right:0;
   color:white;
   display: inline-block;
@@ -105,10 +105,10 @@ input[type=text] {
   top: 0;
   left: 0;
   height: 100%;
-  width: 100%;
+  width: 377px;
   max-width: 410px;
   border-radius: 1px;
-  border:1px dashed white;
+  border:1px dashed rgba(255,255,255,0.3);
   background-color:transparent;
   padding:20px 0;
 
@@ -150,14 +150,14 @@ input[type=text] {
   /* overlay a black mask when dragging over the frame */
   border:1px dashed white;
   /* background-color: rgba(100, 0, 0, 0.25); */
-  box-shadow: 0 0 53px 3px #ffcccc;
+  box-shadow: 0 0 30px 0px rgba(255, 204, 204,1);
   z-index: 50;
   opacity: 1.0;
 }
 
 .file-drop > .file-drop-target.file-drop-dragging-over-target {
   /* turn stuff orange when we are dragging over the target */
-  box-shadow: 0 0 53px 3px #ffcccc;
+  box-shadow: 0 0 30px 0px rgba(255, 204, 204,1);
 }
 
 .uploaded .file-drop-target {
@@ -241,7 +241,7 @@ input[type=text] {
     float:left;
   }
   .chat-container{
-    padding:30px !important;
+    padding:55px 30px 30px 30px !important;
   }
   .twitter-share-button {
     position:fixed;
