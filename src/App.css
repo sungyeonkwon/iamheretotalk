@@ -13,6 +13,11 @@ h1,h2,h3,h4,h5 {
   margin:0;
 }
 
+a {
+  color:white;
+  text-decoration:none;
+  border-bottom:1px solid white;
+}
 div {
   box-sizing: border-box;
 }
@@ -29,51 +34,11 @@ li, ul {
   	height: 100vh;
   	color: #fff;
     background: #3a6186;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to left, #89253e, #3a6186);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to left, #89253e, #3a6186); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: -webkit-linear-gradient(to left, #ef4e76, #3a6186);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to left, #ef4e76, #3a6186); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
-    /* background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
-    background-size: 400% 400%;
-    -webkit-animation: Gradient 15s ease infinite;
-    -moz-animation: Gradient 15s ease infinite;
-    animation: Gradient 15s ease infinite; */
   }
 
-  @-webkit-keyframes Gradient {
-  	0% {
-  		background-position: 0% 50%
-  	}
-  	50% {
-  		background-position: 100% 50%
-  	}
-  	100% {
-  		background-position: 0% 50%
-  	}
-  }
-
-  @-moz-keyframes Gradient {
-  	0% {
-  		background-position: 0% 50%
-  	}
-  	50% {
-  		background-position: 100% 50%
-  	}
-  	100% {
-  		background-position: 0% 50%
-  	}
-  }
-
-  @keyframes Gradient {
-  	0% {
-  		background-position: 0% 50%
-  	}
-  	50% {
-  		background-position: 100% 50%
-  	}
-  	100% {
-  		background-position: 0% 50%
-  	}
-  }
 
 /** TERMINAL CHAT CONTAINTERS **/
 
@@ -82,17 +47,17 @@ li, ul {
   width:50%;
   height:100%;
   float:left;
-  padding:40px;
   overflow: scroll;
   overflow-x: auto;
   word-wrap: break-word;
 }
 .terminal-container {
+  padding: 64px 35px 35px 35px;
   left:0;
 }
 
 .chat-container {
-  padding: 55px 70px 250px 70px !important;
+  padding: 64px 70px 250px 70px;
   right:0;
   color:white;
   display: inline-block;
@@ -100,11 +65,11 @@ li, ul {
 
 /** INPUT **/
 .prompt {
-  color:red;
+  color:#ef4e76;
   margin:15px;
 }
 input {
-  width:60%;
+  width: 57.5%;
   padding:10px 25px;
   border:none;
 }
@@ -217,9 +182,9 @@ input[type=text] {
   line-height: 2.9rem;
   padding:3px 0;
   background:rgba(100,90,110,0.55);
-  -webkit-box-shadow: 0px 0px 46px 0px rgba(255, 204, 204,1);
-  -moz-box-shadow: 0px 0px 46px 0px rgba(255, 204, 204,1);
-  box-shadow: 0px 0px 46px 0px rgba(255, 204, 204,1);
+  -webkit-box-shadow: 0px 0px 30px 0px rgba(255, 204, 204,1);
+  -moz-box-shadow: 0px 0px 30px 0px rgba(255, 204, 204,1);
+  box-shadow: 0px 0px 30px 0px rgba(255, 204, 204,1);
   width:100%;
   box-sizing: border-box;
 
@@ -256,4 +221,29 @@ input[type=text] {
 #root {
   position:absolute;
   z-index:999;
+}
+
+/** twitter button **/
+.twitter-share-button {
+  position:absolute;
+  left: 30px;
+  bottom: 30px;
+  text-decoration:none;
+  color:#ef4e76;
+  z-index:99999;
+}
+
+/** mobile **/
+@media only screen and (max-width: 900px) {
+  .container {
+    width:100%;
+    position:relative;
+    float:left;
+  }
+  .chat-container{
+    padding:30px !important;
+  }
+  .twitter-share-button {
+    position:fixed;
+  }
 }

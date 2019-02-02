@@ -85,7 +85,6 @@ class App extends Component {
       fileStatus: null,
       fileUploaded: false,
       collGarbage: false,
-
   };
 
   componentWillMount() {
@@ -103,6 +102,7 @@ class App extends Component {
   componentWillUnmount() {
     console.log("componentWillUnmount")
   }
+
 
   scrollToBottom = () => {
     $(".chat-container").animate({ scrollTop: $(".chat-container")[0].scrollHeight }, 1000);
@@ -154,6 +154,15 @@ class App extends Component {
 
         this.insertUserChatOption(userAnswer);
 
+      } else if (this.state.currSeq === 'Talk' && userAnswer === 'z') { // clear chat, reset
+        finishedData = {}
+        this.setState({
+          chatContent: ['I\'m here to talk again.',],
+          renderSeq: "Landing",
+          currSeq: "Landing",
+          fileStatus: null,
+          fileUploaded: false,
+        })
       } else { // otherwise render seq
         let seqToRender = this.resHandler(userAnswer)
         this.setState({renderSeq: seqToRender})
@@ -279,7 +288,7 @@ class App extends Component {
   createUserColors = () => {
     // retrive all users and assign colors to it
     let users = Object.values(this.state.chatUsers)
-    let colors = ['rgba(240,20,15,0.4)', 'rgba(50,40,205,0.3)', 'rgba(160,20,175,0.4)', 'rgba(20,220,45,0.4)', 'rgba(140,120,15,0.4)']
+    let colors = ['rgba(240,20,15,0.4)', 'rgba(50,40,205,0.3)', 'rgba(160,20,175,0.4)', 'rgba(20,220,45,0.4)', 'rgba(140,120,15,0.4)', 'rgba(10,250,65,0.4)', 'rgba(173,255,47,0.6)']
     let chatUserColors = {}
     if (users.length !== 0) {
       users.map((user, i) => {
@@ -348,6 +357,10 @@ class App extends Component {
               onChange={this.inputChangedHandler}
               onKeyPress={this.keyPressedHandler}
               value={this.state.userInput} />
+            <a class="twitter-share-button"
+               href="https://twitter.com/intent/tweet?text=I%20talked%20to%20you:%20http://iamheretotalk.online"
+               target="_blank">
+              Tweet this thing</a>
           </Terminal>
           :
           <Terminal
@@ -359,7 +372,12 @@ class App extends Component {
               onChange={this.inputChangedHandler}
               onKeyPress={this.keyPressedHandler}
               value={this.state.userInput} />
+            <a className="twitter-share-button"
+               href="https://twitter.com/intent/tweet?text=I%20talked%20to%20you:%20http://iamheretotalk.online"
+               target="_blank">
+              Tweet this thing</a>
           </Terminal>
+
         }
           <div className="chat-background"></div>
           <Chat
