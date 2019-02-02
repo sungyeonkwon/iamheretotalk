@@ -142,6 +142,17 @@ function getPatternL(line){
   return null
 }
 
+function getPatternM(line){
+  // what do you think of me?
+  let regex = /\W( you are)\s[^.!?:]*[.!\nA-Z]{1}$/ig,
+      matched = line.match(regex);
+  if (matched) {
+    matched = new Array(matched.toString().substring(2,3).toUpperCase() + matched.toString().substring(3))
+    if (matched.toString().length >= 12) return matched
+  }
+  return null
+}
+
 function pushPattern(element, func, id, data, user ) {
   // element: each raw line string
   // func: pattern func
@@ -182,6 +193,7 @@ function processData(rawLineData) {
       pushPattern(element, getPatternJ, 'j', dataStorage, userName)
       pushPattern(element, getPatternK, 'k', dataStorage, userName)
       pushPattern(element, getPatternL, 'l', dataStorage, userName)
+      pushPattern(element, getPatternM, 'm', dataStorage, userName)
 
     }
     catch(error) { // multiple line cases, ignore it for now

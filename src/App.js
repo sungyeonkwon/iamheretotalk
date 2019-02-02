@@ -38,6 +38,7 @@ let inputChatLine = {
   j: 'What is important on the internet?',
   k: 'What does it mean?',
   l: 'What do you love?',
+  m: 'What do you think of me?'
 }
 
 let finishedData;

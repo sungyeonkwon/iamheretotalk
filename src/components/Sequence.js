@@ -88,7 +88,8 @@ const sequence = ( props ) => {
       (i) Ask me a question.<br/>
       (j) What is important on the internet?<br/>
       (k) What does it mean? <br />
-      (l) What do you love <br/>
+      (l) What do you love? <br/>
+      (m) What do you think of me? <br/>
       ------------------------------------------<br/>
       If you are done with this conversation, <br/>you can:<br/>
       ------------------------------------------<br/>
