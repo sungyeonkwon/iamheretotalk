@@ -4,29 +4,28 @@ You are going to talk to people you have previously talked on WhatsApp (or to yo
 
 ## How does it work
 
-### Prepare the file
-
-Export a WhatsApp conversation from your device. You must select an option 'without media' for this to work. 
-
-```
-Give examples
-```
-### Upload the file
-
-Then, you will simply upload the '.txt' file for the next step.
+Export a WhatsApp conversation from your device. 
+1. Export a WhatsApp conversation from your device. 
+  1. Click on a Profile / Group info
+  2. Click on 'Export Chat' below on the menu
+  3. Choose 'Without Media'
+  4. Send / download the file
+2. Prepare & Upload the file
+  1. Unzip the downloaded file
+  2. Upload the '.txt' file to the app
 
 ## Information on Personal Data 
 
-This app does not store your data – in fact, it doesn't have a database. If you feel incredulous, you can check the codebase here. Enough said; now, initiate a chat.
+This app does not store your data – it doesn't have a database. All the chat data is temporarily stored on the front end. If you refresh the page, your uploaded chat data will be all gone.
 
-## Testing File
+## Testing
+
+Use file 'test.txt' to see how it works.
 
 ## Built With
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
+* [React](https://reactjs.org/) 
 
 ## Author
 
-* **Sung Kwon** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
+* **Sung Kwon** - [Sung Kwon](https://www.sungkwon.info)
