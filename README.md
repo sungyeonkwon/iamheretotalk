@@ -1,6 +1,6 @@
 # I am Here to Talk
 
-## What to do with this app
+## What is this
 
 Use it to talk to people you have previously talked on WhatsApp (or to yourself) again.
 
@@ -15,7 +15,7 @@ Use it to talk to people you have previously talked on WhatsApp (or to yourself)
     * Unzip the downloaded file
     * Upload the '.txt' file to the app
 
-## Information on Personal Data 
+## Personal data protection
 
 This app does not store your data – it doesn't have a database. All chat data is temporarily stored on the front end and it will all be gone when you refresh the page.
 
