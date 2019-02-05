@@ -1,11 +1,12 @@
 # I am Here to Talk
 
-You are going to talk to people you have previously talked on WhatsApp (or to yourself) again.
+## What to do with this app
+
+Use it to talk to people you have previously talked on WhatsApp (or to yourself) again.
 
 ## How does it work
 
-Export a WhatsApp conversation from your device. 
-1. Export a WhatsApp conversation from your device. 
+1. Export a WhatsApp conversation from your device
     *  Click on a Profile / Group info
     * Click on 'Export Chat' below on the menu
     * Choose 'Without Media'
