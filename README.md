@@ -15,7 +15,11 @@ Give examples
 
 Then, you will simply upload the '.txt' file for the next step.
 
-## Testing 
+## Information on Personal Data 
+
+This app does not store your data – in fact, it doesn't have a database. If you feel incredulous, you can check the codebase here. Enough said; now, initiate a chat.
+
+## Testing File
 
 ## Built With
 
@@ -23,26 +27,6 @@ Then, you will simply upload the '.txt' file for the next step.
 * [Maven](https://maven.apache.org/) - Dependency Management
 * [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
 
-## Contributing
+## Author
 
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
-
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
-
-## Authors
-
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
-## Acknowledgments
-
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
+* **Sung Kwon** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
