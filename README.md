@@ -17,7 +17,7 @@ Use it to talk to people you have previously talked on WhatsApp (or to yourself)
 
 ## Information on Personal Data 
 
-This app does not store your data – it doesn't have a database. All chat data is temporarily stored on the front end and when you refresh the page, it will be gone.
+This app does not store your data – it doesn't have a database. All chat data is temporarily stored on the front end and it will all be gone when you refresh the page.
 
 ## Testing
 
