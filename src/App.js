@@ -277,16 +277,16 @@ class App extends Component {
     this.setState({fileStatus: "Uploading the file, please wait..."})
   }
 
-  callbackFileLoaded = () => {
+  callbackFileLoaded = (result) => {
     this.setState({
-      fileStatus: "(a) Proceed to start a conversation.",
+      fileStatus: result,
       fileUploaded: true,
     })
   }
 
-  createMarkup = () => {
-    // return { __html: 'First <strong>test</strong> Second' };
-  }
+  // createMarkup = (line) => {
+  //   return { __html: `<a href="${line}">${line}</a>` };
+  // }
 
   createUserColors = () => {
     // retrive all users and assign colors to it
@@ -323,7 +323,7 @@ class App extends Component {
         return (
           <div className="chatLine" key={i}>
             <Typing speed={15} className="chat-text-container you">
-              <span style={{ backgroundColor: this.state.chatUserColors[this.state.chatUserHistory[i]] }} className="chat-text you" dangerouslySetInnerHTML={this.createMarkup()}>{user}<br/>{line}</span>
+              <span style={{ backgroundColor: this.state.chatUserColors[this.state.chatUserHistory[i]] }} className="chat-text you" >{user}<br/>{line}</span>
             </Typing>
           </div>)
       } else if (i % 2 === 0) {
@@ -331,7 +331,7 @@ class App extends Component {
           <div className="chatLine" key={i}>
             <Typing speed={10} className="chat-text-container you">
               <Typing.Delay ms={1500} />
-              <span style={{ backgroundColor: this.state.chatUserColors[this.state.chatUserHistory[i]] }} className="chat-text you" dangerouslySetInnerHTML={this.createMarkup()}>{user}<br/>{line}</span>
+              <span style={{ backgroundColor: this.state.chatUserColors[this.state.chatUserHistory[i]] }} className="chat-text you">{user}<br/>{line}</span>
             </Typing>
           </div>)
       } else { // me

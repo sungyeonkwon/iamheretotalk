@@ -47,8 +47,9 @@ li, ul {
   width:50%;
   height:100%;
   float:left;
-  overflow: scroll;
-  overflow-x: auto;
+  overflow:hidden;
+  /* overflow: scroll;
+  overflow-x: auto; */
   word-wrap: break-word;
 }
 .terminal-container {

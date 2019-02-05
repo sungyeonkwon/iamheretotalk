@@ -205,14 +205,20 @@ function processData(rawLineData) {
   return dataStorage
 }
 
+
+
 const fileReader = (props) => {
+
+  let isFileValid = true;
+  let zoneText = 'Drop file here'
+  let uploaded;
 
   const fileLoading = () => {
     props.callbackFileLoading()
   }
 
-  const fileLoaded = () => {
-    props.callbackFileLoaded()
+  const fileLoaded = (result) => {
+    props.callbackFileLoaded(result)
   }
 
   const handleFileDrop = (event, file) => {
@@ -234,7 +240,19 @@ const fileReader = (props) => {
         let finalData = processData(shuffledLineRawData)
         let users = Object.keys(finalData)
         props.callbackFromParent(finalData, users)
-        fileLoaded();
+        console.log("CHECK ", users)
+
+        // check if the data is valid
+        let success = "(a) Proceed to start a conversation."
+        let failure = "File seems to be odd."
+        if (users === undefined || users.length === 0) {
+          isFileValid = false;
+          fileLoaded(failure)
+          changeFileLog(isFileValid);
+        } else {
+          fileLoaded(success)
+          changeFileLog(isFileValid);
+        }
     };
     reader.onerror = (event) => {
         alert(event.target.error.name);
@@ -243,12 +261,17 @@ const fileReader = (props) => {
   }
 
   // when uploaded == true, change style and text
-  let zoneText = 'Drop file here'
-  let uploaded;
-  if (props.uploaded){
-    console.log("props.uploaded", props.uploaded)
-    uploaded = 'uploaded'
-    zoneText = 'File Successfully Uploaded'
+  const changeFileLog = (isFileValid) =>{
+    if (props.uploaded){
+      if (isFileValid){
+        console.log("props.uploaded", props.uploaded)
+        uploaded = 'uploaded'
+        zoneText = 'File Successfully Uploaded'
+      } else {
+        uploaded = 'uploaded'
+        zoneText = 'File seems to be odd!'
+      }
+    }
   }
 
   // garbage collection for the data
