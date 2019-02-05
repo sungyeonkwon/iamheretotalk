@@ -6,13 +6,13 @@ You are going to talk to people you have previously talked on WhatsApp (or to yo
 
 Export a WhatsApp conversation from your device. 
 1. Export a WhatsApp conversation from your device. 
-  1. Click on a Profile / Group info
-  2. Click on 'Export Chat' below on the menu
-  3. Choose 'Without Media'
-  4. Send / download the file
+    *  Click on a Profile / Group info
+    * Click on 'Export Chat' below on the menu
+    * Choose 'Without Media'
+    * Send / download the file
 2. Prepare & Upload the file
-  1. Unzip the downloaded file
-  2. Upload the '.txt' file to the app
+    * Unzip the downloaded file
+    * Upload the '.txt' file to the app
 
 ## Information on Personal Data 
 
