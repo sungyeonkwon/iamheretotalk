@@ -34,12 +34,12 @@ li, ul {
   	height: 100vh;
   	color: #fff;
     /* background: #3a6186; */
-    /* background: -webkit-linear-gradient(to left, #ef4e76, #3a6186); */
-    /* background: linear-gradient(to left, #ef4e76, #3a6186); */
+    /* background: -webkit-linear-gradient(to left, #129b12, #3a6186); */
+    /* background: linear-gradient(to left, #129b12, #3a6186); */
 
-    background: #0B486B;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to left, #F56217, #0B486B);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to left, #F56217, #0B486B); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: #172f72;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to left, #129b12, #172f72);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to left, #129b12, #172f72); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
   }
 
@@ -76,11 +76,12 @@ li, ul {
 
 /** INPUT **/
 .prompt {
-  color:#ef4e76;
-  margin:15px;
+  color:#129b12;
+  /* margin:15px; */
+  margin-top:30px;
 }
 input {
-  width: 57.5%;
+  width: 60%;
   padding:8px 20px;
   border:none;
 }
@@ -90,12 +91,14 @@ input:focus {
 }
 
 input[type=text] {
-  background-color: rgba(255,255,255,0.1);
+  /* background-color: rgba(255,255,255,0.1); */
+  border: 1px solid rgba(255,255,255,0.4);
+  background-color:transparent;
   color: white;
   /* border:2px solid #444; */
   font-size:17px;
   font-family: 'IBM Plex Mono', monospace;
-  border-radius: 25px;
+  border-radius: 3px;
 }
 
 /** FILE DROP **/
@@ -116,7 +119,7 @@ input[type=text] {
   top: 0;
   left: 0;
   height: 100%;
-  width: 100%;
+  width: 69.5%;
   max-width: 410px;
   border-radius: 1px;
   border:1px dashed rgba(255,255,255,0.3);
@@ -161,14 +164,14 @@ input[type=text] {
   /* overlay a black mask when dragging over the frame */
   border:1px dashed white;
   /* background-color: rgba(100, 0, 0, 0.25); */
-  box-shadow: 0 0 30px 0px rgba(255, 204, 204,1);
+  box-shadow: 0 0 30px 0px rgba(124, 200, 124,1);
   z-index: 50;
   opacity: 1.0;
 }
 
 .file-drop > .file-drop-target.file-drop-dragging-over-target {
   /* turn stuff orange when we are dragging over the target */
-  box-shadow: 0 0 30px 0px rgba(255, 204, 204,1);
+  box-shadow: 0 0 30px 0px rgba(124, 200, 124,1);
 }
 
 .uploaded .file-drop-target {
@@ -188,7 +191,7 @@ input[type=text] {
   position:relative;
   margin-bottom:50px;
   background:rgba(255,255,255,0.14);
-  padding:10px 22px;
+  padding:21px 22px 2px 22px;
   border-radius: .4em;
 }
 
@@ -240,6 +243,7 @@ input[type=text] {
 
 .username {
   font-size:15px;
+  color:rgba(255,255,255,0.5);
 }
 
 .chat-text.me {
@@ -252,14 +256,13 @@ input[type=text] {
 
 .you {
   text-align: left;
-  width:85%;
+  width:90%;
 }
 .me {
   text-align: right;
-  width:85%;
-  margin-left: 15%;
+  width:90%;
+  margin-left: 10%;
 }
-
 
 /** VIDEO BG **/
 #tubular-container, .tubular{
@@ -276,8 +279,9 @@ input[type=text] {
   position:absolute;
   left: 30px;
   bottom: 30px;
-  text-decoration:none;
-  color:#ef4e76;
+  text-decoration:none !important;
+  border:none;
+  color:#129b12;
   z-index:99999;
 }
 

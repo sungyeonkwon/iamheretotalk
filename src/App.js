@@ -88,6 +88,7 @@ class App extends Component {
       youCanType: false,
       hidden: 'hidden',
       readyForYourResponse: false,
+      zoneText: "DROP FILE",
   };
 
   componentWillMount() {
@@ -143,7 +144,7 @@ class App extends Component {
 
     setTimeout(function(){
       this.setReadyForYourResponse()
-    }.bind(this), 1000)
+    }.bind(this), 1700)
 
   }
 
@@ -302,9 +303,11 @@ class App extends Component {
   }
 
   callbackFileLoaded = (result) => {
+    console.log("[callbackFileLoaded] IS THERE A CALL BACK COMEING FROM THERE?????")
     this.setState({
       fileStatus: result,
       fileUploaded: true,
+      zoneText:'hahahahahaha'
     })
   }
 
@@ -393,6 +396,7 @@ class App extends Component {
               callbackFileLoaded={this.callbackFileLoaded}
               uploaded={this.state.fileUploaded}
               collGarbage={this.state.collGarbage}
+              zoneTextChange={this.state.zoneText}
               />
             {this.state.fileStatus === null?
             <div></div>:

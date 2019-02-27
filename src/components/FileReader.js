@@ -218,6 +218,7 @@ const fileReader = (props) => {
   }
 
   const fileLoaded = (result) => {
+    console.log("[fileLoaded] result", result)
     props.callbackFileLoaded(result)
   }
 
@@ -247,11 +248,11 @@ const fileReader = (props) => {
         let failure = "File seems to be odd."
         if (users === undefined || users.length === 0) {
           isFileValid = false;
+          changeFileLog(isFileValid);
           fileLoaded(failure)
-          changeFileLog(isFileValid);
         } else {
-          fileLoaded(success)
           changeFileLog(isFileValid);
+          fileLoaded(success)
         }
     };
     reader.onerror = (event) => {
@@ -278,6 +279,11 @@ const fileReader = (props) => {
   if (props.collGarbage) {
     dataStorage = {};
   }
+
+  if (props.zoneTextChange) {
+    console.log("props.zoneText", props.zoneText)
+  }
+
   console.log("dataStorage", dataStorage)
 
   return (
