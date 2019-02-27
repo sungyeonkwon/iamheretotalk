@@ -190,6 +190,8 @@ class App extends Component {
           currSeq: "Landing",
           fileStatus: null,
           fileUploaded: false,
+          zoneText: "Drop File Here",
+          zoneUploaded: "",
         })
       } else { // otherwise render seq
         let seqToRender = this.resHandler(userAnswer)
@@ -257,7 +259,6 @@ class App extends Component {
   }
 
   callbackFileHandler = (dataFromChild, users) => {
-    console.log("THIS IS TO BE FIRED ONLY ONCE")
       users = users.sort()
       let abcd = 'abcdefghijklmnopqrstuvwxyz'.split('')
       // set the person as per the user data
@@ -304,7 +305,6 @@ class App extends Component {
   }
 
   callbackFileLoaded = (result) => {
-    console.log("[callbackFileLoaded] IS THERE A CALL BACK COMEING FROM THERE?????", result)
     if (result === "File seems to be odd."){
       this.setState({
         fileStatus: result,
@@ -352,9 +352,11 @@ class App extends Component {
       user = 'Hello.'
     }
 
-    console.log("[APP] before cooking chatContentAll", chatContentAll)
     let chatLineComp = chatContentAll.map((line, i) => {
-
+      console.log("[chatLineComp] chatUserHistory", this.state.chatUserHistory)
+      if (this.state.chatUserHistory[i]) {
+        user = this.state.chatUserHistory[i]
+      }
       var userColor = {
         backgroundColor: this.state.chatUserColors[this.state.chosenUser],
       };
