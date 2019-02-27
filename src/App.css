@@ -37,9 +37,9 @@ li, ul {
     /* background: -webkit-linear-gradient(to left, #ef4e76, #3a6186); */
     /* background: linear-gradient(to left, #ef4e76, #3a6186); */
 
-    background: #355C7D;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to left, #C06C84, #6C5B7B, #355C7D);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to left, #C06C84, #6C5B7B, #355C7D); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: #0B486B;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to left, #F56217, #0B486B);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to left, #F56217, #0B486B); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
   }
 
@@ -252,11 +252,12 @@ input[type=text] {
 
 .you {
   text-align: left;
-  width:100%;
+  width:85%;
 }
 .me {
   text-align: right;
-  width:100%;
+  width:85%;
+  margin-left: 15%;
 }
 
 

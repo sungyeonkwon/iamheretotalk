@@ -86,24 +86,47 @@ class App extends Component {
       fileUploaded: false,
       collGarbage: false,
       youCanType: false,
+      hidden: 'hidden',
+      readyForYourResponse: false,
   };
 
   componentWillMount() {
     console.log("componentWillMount")
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return true
+  }
+
+  componentWillUpdate() {
+  }
+
   componentDidMount() {
     this.scrollToBottom();
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps, prevState) {
+    console.log("[componentDidUpdate]")
+
+    if (prevState.readyForYourResponse !== this.state.readyForYourResponse) {
+      console.log("prevState.readyForYourResponse", prevState.readyForYourResponse)
+      console.log("this.state.readyForYourResponse", this.state.readyForYourResponse)
+      let userAnswer = this.state.userAnswer
+
+      if (this.state.readyForYourResponse){// if this is true
+          console.log("this means I'm really ready for your response")
+          this.insertChatResponse(userAnswer)
+      }
+
+    } else {
+      console.log("componentDidUpdate, not applicable")
+    }
     this.scrollToBottom();
   }
 
   componentWillUnmount() {
     console.log("componentWillUnmount")
   }
-
 
   scrollToBottom = () => {
     $(".chat-container").animate({ scrollTop: $(".chat-container")[0].scrollHeight }, 1000);
@@ -116,15 +139,19 @@ class App extends Component {
   insertUserChatOption = (userAnswer) => {
     this.setState({
       chatContent: [...this.state.chatContent, inputChatLine[userAnswer]],
-    }, () => {
-      this.insertChatResponse(userAnswer);
-    });
+    })
+
+    setTimeout(function(){
+      this.setReadyForYourResponse()
+    }.bind(this), 1000)
+
   }
 
   insertChatResponse = (userAnswer) => {
     let chatLength = this.state.chatContent.length
     let addToChatContent = this.updateChatContent(userAnswer, this.state.chosenUser)
     this.setState({
+      readyForYourResponse: false,
       optionToRender: userAnswer,
       chatContent: [...this.state.chatContent, addToChatContent],
       chatUserHistory: Object.assign(this.state.chatUserHistory, {
@@ -134,14 +161,14 @@ class App extends Component {
   }
 
   keyPressedHandler = (event) => {
+    this.setState({hidden: 'hidden'})
     let key = event.keyCode || event.which;
-
     if (key === 13){
       let userAnswer = event.target.value.toLowerCase();
+
       this.setState({userAnswer:userAnswer})
 
       if (this.state.currSeq === 'Person'){
-
         let chosenUser = this.state.chatUsers[userAnswer]
         let seqToRender = this.resHandler(userAnswer)
         this.setState({
@@ -152,9 +179,7 @@ class App extends Component {
         })
 
       } else if (this.state.currSeq === 'Talk' && userAnswer !== 'x' && userAnswer !== 'y' && userAnswer !== 'z'){
-
         this.insertUserChatOption(userAnswer);
-
       } else if (this.state.currSeq === 'Talk' && userAnswer === 'z') { // clear chat, reset
         finishedData = {}
         this.setState({
@@ -178,7 +203,6 @@ class App extends Component {
   updateChatContent = (opt, user) => {
     try {
       let selectedLine;
-
       if (finishedData[user][opt].length === 0) {
         selectedLine = "I don't know what to say."
       } else if (optionCount[opt] <= finishedData[user][opt].length - 1){
@@ -188,7 +212,6 @@ class App extends Component {
         optionCount[opt] = 0
         selectedLine = finishedData[user][opt][optionCount[opt]]
       }
-
       return selectedLine;
     }
     catch(error) {
@@ -285,20 +308,10 @@ class App extends Component {
     })
   }
 
-  setIdle = () => {
-    console.log("set idle. you can type now")
-    this.setState({youCanType: true})
+  setReadyForYourResponse = () => {
+    console.log("setReadyForYourResponse")
+    this.setState({readyForYourResponse: true})
   }
-
-  setBusy = () => {
-    console.log("set busy. cannot type now")
-    this.setState({youCanType: false})
-  }
-
-
-  // createMarkup = (line) => {
-  //   return { __html: `<a href="${line}">${line}</a>` };
-  // }
 
   createUserColors = () => {
     // retrive all users and assign colors to it
@@ -320,22 +333,17 @@ class App extends Component {
     let chatContentAll = this.state.chatContent
     let user;
     if (this.state.chosenUser){
-      user = this.state.chosenUser + ':'
+      user = this.state.chosenUser
     } else {
       user = 'Hello.'
     }
 
+    console.log("[APP] before cooking chatContentAll", chatContentAll)
     let chatLineComp = chatContentAll.map((line, i) => {
 
       var userColor = {
         backgroundColor: this.state.chatUserColors[this.state.chosenUser],
       };
-
-      // var timerId = setTimeout(function(){
-      //     console.log("Hello!");
-      // },1000);
-      //
-      // clearTimeout(timerId);
 
       // initial hello
       if ( i === 0 ){
@@ -343,35 +351,29 @@ class App extends Component {
           <div className="chatLine you" key={i} style={{
             // backgroundColor: this.state.chatUserColors[this.state.chatUserHistory[i]]
           }}>
-            <Typing speed={15} className="chat-text-container you"
-              // onFinishedTyping={this.setBusy}
-              >
+            <Typing speed={15} className="chat-text-container you">
               <span className="chat-text you" >{user}<br/>{line}</span>
             </Typing>
           </div>)
       }
 
       // you
-      else if (i % 2 === 0) {
-        console.log('user should not be undefined...', user)
+      else if (i % 2 === 0 && line !== undefined) {
         return (
-          <div className="chatLine you" key={i} style={{
-            // backgroundColor: this.state.chatUserColors[this.state.chatUserHistory[i]],
-          }}>
-            <Typing speed={10} className="chat-text-container you">
-              <span className="chat-text you"><span className="username">{user}</span><br/>{line}</span>
+          <div className="chatLine you" key={i} wait={1000}>
+            <span className="username">{user}</span><br/>
+            <Typing speed={10} className="chat-text-container you"
+            >
+              <Typing.Delay ms={1000} />
+              <span className="chat-text you">{line}</span>
             </Typing>
           </div>)
       }
        // me
       else {
         return (
-          <div className="chatLine me" key={i} style={{
-            // backgroundColor: 'rgba(85,95,110,0.75)',
-          }}>
-            <Typing speed={10} className="chat-text-container me"
-              // onFinishedTyping={this.setIdle}
-              >
+          <div className="chatLine me" key={i}>
+            <Typing speed={10} className="chat-text-container me">
               <span className="chat-text me">{line}</span>
             </Typing>
           </div>)
@@ -415,7 +417,8 @@ class App extends Component {
               type="text"
               onChange={this.inputChangedHandler}
               onKeyPress={this.keyPressedHandler}
-              value={this.state.userInput} />
+              value={this.state.userInput}
+              autoFocus="autofocus" />
             <a className="twitter-share-button"
                href="https://twitter.com/intent/tweet?text=I%20talked%20to%20you:%20http://iamheretotalk.online"
                target="_blank">
