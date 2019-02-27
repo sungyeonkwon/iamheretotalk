@@ -103,7 +103,7 @@ input[type=text] {
 
 /** FILE DROP **/
 #react-file-drop {
-  margin:20px 0;
+  margin: 5px 0 25px 0;
 }
 .file-drop {
   /* relatively position the container bc the contents are absolute */
@@ -119,8 +119,8 @@ input[type=text] {
   top: 0;
   left: 0;
   height: 100%;
-  width: 69.5%;
-  max-width: 410px;
+  width: 100%;
+  /* max-width: 410px; */
   border-radius: 1px;
   border:1px dashed rgba(255,255,255,0.3);
   background-color:transparent;
@@ -174,11 +174,11 @@ input[type=text] {
   box-shadow: 0 0 30px 0px rgba(124, 200, 124,1);
 }
 
-.uploaded .file-drop-target {
-  background-color: rgba(255, 0, 0, 0.15);
+.upload .file-drop-target {
+  background-color: rgba(255, 255, 255,0.1);
   /* box-shadow: 0 0 53px 3px #ff6e40; */
   z-index: 50;
-  border:1px solid white;
+  border:1px solid rgba(124, 200, 124,0);
 }
 
 /** CHAT**/
@@ -227,11 +227,7 @@ input[type=text] {
   font-size:28px;
   line-height: 2.9rem;
   padding:3px 0;
-  /* background:rgba(100,90,110,0.55); */
-  /* -webkit-box-shadow: 0px 0px 30px 0px rgba(255, 204, 204,1);
-  -moz-box-shadow: 0px 0px 30px 0px rgba(255, 204, 204,1);
-  box-shadow: 0px 0px 30px 0px rgba(255, 204, 204,1); */
-  /* width:100%; */
+
   box-sizing: border-box;
 
   -webkit-transition: all 0.2s ease;

@@ -287,12 +287,12 @@ const fileReader = (props) => {
   console.log("dataStorage", dataStorage)
 
   return (
-      <div className="upload">
+      <div className={props.zoneUploaded}>
         <div id="react-file-drop" className = {uploaded}>
           <FileDrop
             onDrop={ (event,file) => handleFileDrop(event, file) }
             onFrameDrop={() => fileLoading()} >
-            {zoneText}
+            {props.zoneTextChange}
           </FileDrop>
         </div>
       </div>

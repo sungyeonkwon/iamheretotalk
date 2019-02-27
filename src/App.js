@@ -88,7 +88,8 @@ class App extends Component {
       youCanType: false,
       hidden: 'hidden',
       readyForYourResponse: false,
-      zoneText: "DROP FILE",
+      zoneText: "Drop File Here",
+      zoneUploaded: "",
   };
 
   componentWillMount() {
@@ -303,12 +304,22 @@ class App extends Component {
   }
 
   callbackFileLoaded = (result) => {
-    console.log("[callbackFileLoaded] IS THERE A CALL BACK COMEING FROM THERE?????")
-    this.setState({
-      fileStatus: result,
-      fileUploaded: true,
-      zoneText:'hahahahahaha'
-    })
+    console.log("[callbackFileLoaded] IS THERE A CALL BACK COMEING FROM THERE?????", result)
+    if (result === "File seems to be odd."){
+      this.setState({
+        fileStatus: result,
+        fileUploaded: true,
+        zoneText:'Drop a Valid File',
+        zoneUploaded: ''
+      })
+    } else {
+      this.setState({
+        fileStatus: result,
+        fileUploaded: true,
+        zoneText:'File Successfully Uploaded',
+        zoneUploaded: 'upload'
+      })
+    }
   }
 
   setReadyForYourResponse = () => {
@@ -397,6 +408,7 @@ class App extends Component {
               uploaded={this.state.fileUploaded}
               collGarbage={this.state.collGarbage}
               zoneTextChange={this.state.zoneText}
+              zoneUploaded={this.state.zoneUploaded}
               />
             {this.state.fileStatus === null?
             <div></div>:
