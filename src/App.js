@@ -85,6 +85,7 @@ class App extends Component {
       fileStatus: null,
       fileUploaded: false,
       collGarbage: false,
+      youCanType: false,
   };
 
   componentWillMount() {
@@ -284,6 +285,17 @@ class App extends Component {
     })
   }
 
+  setIdle = () => {
+    console.log("set idle. you can type now")
+    this.setState({youCanType: true})
+  }
+
+  setBusy = () => {
+    console.log("set busy. cannot type now")
+    this.setState({youCanType: false})
+  }
+
+
   // createMarkup = (line) => {
   //   return { __html: `<a href="${line}">${line}</a>` };
   // }
@@ -314,31 +326,53 @@ class App extends Component {
     }
 
     let chatLineComp = chatContentAll.map((line, i) => {
+
       var userColor = {
         backgroundColor: this.state.chatUserColors[this.state.chosenUser],
       };
 
-      // you
+      // var timerId = setTimeout(function(){
+      //     console.log("Hello!");
+      // },1000);
+      //
+      // clearTimeout(timerId);
+
+      // initial hello
       if ( i === 0 ){
         return (
-          <div className="chatLine" key={i}>
-            <Typing speed={15} className="chat-text-container you">
-              <span style={{ backgroundColor: this.state.chatUserColors[this.state.chatUserHistory[i]] }} className="chat-text you" >{user}<br/>{line}</span>
+          <div className="chatLine you" key={i} style={{
+            // backgroundColor: this.state.chatUserColors[this.state.chatUserHistory[i]]
+          }}>
+            <Typing speed={15} className="chat-text-container you"
+              // onFinishedTyping={this.setBusy}
+              >
+              <span className="chat-text you" >{user}<br/>{line}</span>
             </Typing>
           </div>)
-      } else if (i % 2 === 0) {
+      }
+
+      // you
+      else if (i % 2 === 0) {
+        console.log('user should not be undefined...', user)
         return (
-          <div className="chatLine" key={i}>
+          <div className="chatLine you" key={i} style={{
+            // backgroundColor: this.state.chatUserColors[this.state.chatUserHistory[i]],
+          }}>
             <Typing speed={10} className="chat-text-container you">
-              <Typing.Delay ms={1500} />
-              <span style={{ backgroundColor: this.state.chatUserColors[this.state.chatUserHistory[i]] }} className="chat-text you">{user}<br/>{line}</span>
+              <span className="chat-text you"><span className="username">{user}</span><br/>{line}</span>
             </Typing>
           </div>)
-      } else { // me
+      }
+       // me
+      else {
         return (
-          <div className="chatLine" key={i}>
-            <Typing speed={10} className="chat-text-container me">
-              <span style={{ backgroundColor: 'rgba(100,90,110,0.55)'}} className="chat-text me">{line}</span>
+          <div className="chatLine me" key={i} style={{
+            // backgroundColor: 'rgba(85,95,110,0.75)',
+          }}>
+            <Typing speed={10} className="chat-text-container me"
+              // onFinishedTyping={this.setIdle}
+              >
+              <span className="chat-text me">{line}</span>
             </Typing>
           </div>)
       }

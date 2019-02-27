@@ -23,7 +23,6 @@ const sequence = ( props ) => {
     return (
       // here sequence is the variable that's different
       <div className="sequence">
-      <span className="divider">––––––––––––––––––––––––––––––––––––––––––</span><br/>
       Select an option by typing in the letter inside the brackets:<br/>
       <span className="divider">––––––––––––––––––––––––––––––––––––––––––</span><br/>
       (a) What is this?<br/>
@@ -33,7 +32,6 @@ const sequence = ( props ) => {
   } else if (sequenceToRender=== "Info") {
     return (
       <div className="sequence">
-      <span className="divider">––––––––––––––––––––––––––––––––––––––––––</span><br/>
       You are going to talk to people you have previously talked on WhatsApp (or to yourself) again. To do this: <br/>
       <span className="divider">––––––––––––––––––––––––––––––––––––––––––</span><br/>
       1. Export a WhatsApp conversation from your device. You must select an option 'without media' for this to work. <br/>
@@ -48,7 +46,6 @@ const sequence = ( props ) => {
   } else if (sequenceToRender === "Invalid") {
     return (
       <div className="sequence">
-      <span className="divider">––––––––––––––––––––––––––––––––––––––––––</span><br/>
       Please behave. You're typing in gibberish. <br/>
       When you're ready to comply, type in:<br/>
       <span className="divider">––––––––––––––––––––––––––––––––––––––––––</span><br/>
@@ -59,7 +56,6 @@ const sequence = ( props ) => {
   } else if (sequenceToRender === "Upload"){
     return (
       <div className="sequence">
-      <span className="divider">––––––––––––––––––––––––––––––––––––––––––</span><br/>
       Upload your chat file named '_chat.txt' in the area below:<br/>
       <span className="divider">––––––––––––––––––––––––––––––––––––––––––</span><br/>
 
@@ -68,7 +64,6 @@ const sequence = ( props ) => {
   } else if (sequenceToRender === "Person") {
     return (
       <div className="sequence">
-      <span className="divider">––––––––––––––––––––––––––––––––––––––––––</span><br/>
       Select who you want to talk to:<br/>
       <span className="divider">––––––––––––––––––––––––––––––––––––––––––</span><br/>
       {userOptions}
@@ -77,7 +72,6 @@ const sequence = ( props ) => {
   } else if (sequenceToRender === "Talk") {
     return(
       <div className="sequence">
-      <span className="divider">––––––––––––––––––––––––––––––––––––––––––</span><br/>
       Ready to talk. What do you want to say?<br/>
       <span className="divider">––––––––––––––––––––––––––––––––––––––––––</span><br/>
       (a) What?<br/>
