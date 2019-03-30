@@ -41,12 +41,44 @@ let inputChatLine = {
   m: 'What do you think of me?'
 }
 
-let finishedData;
+let finishedData = {
+  John: {
+    a: ["I think you look more like your dad!", "I told you but you won't listen!"],
+    b: ["STARS ARE WAITING FOR YOU", "COME HERE RIGHT NOW"],
+    c: ["Because I observe you!", "Because they shovel snow and it is a lot harder than they remembered."],
+    d: ["I am realising having an intern does not necessarily reduce my workload because I have to explain everything and even then I have to re-work on it, it’s double the amount of work", "My housemate just said that her need to have hot water to wash her hair at 5am is more important than my need to not get woken up in the middle of the night."],
+    e: ["I think we must use more pesticides", "I think I'm under constant stress now.", "I think that kind of society could totally stifle growth."],
+    f: ["I want some shock in the system", "I want schnitzel", "I want emotional support"],
+    g: ["I feel validated now.", "I feel like I'm wasting my time"],
+    h: ["😈", "💩"],
+    i: ["Did you clarify your break up?", "Did you actually dance to the song?", "Like rose water in the icing?", "What’s the plan for tomorrow?", "What else did you tell me about her?"],
+    j: ["https://www.bbc.co.uk/news/av/uk-england-leeds-447…row-with-yorkshire-accent-filmed-in-knaresborough"],
+    k: ["It means you’re having a good time.", "It means you have seen my message but are avoiding looking at it."],
+    l: ["I love the first one", "I love your voice"],
+    m: ["You are joking me.", "You are having a good eve"],
+  },
+  Sara: {
+    a: ["This is better than yesterday!", "Because we came from _hell_ and now we are in a good place!"],
+    b: ["FUNNY. HA. HA. HA.", "I HAVE FORGOTTEN"],
+    c: ["Because she wanted it but she just has too much self respect.", "Because we came from _hell_ and now we are in a good place!"],
+    d: ["There were so many more exciting questions to be asked, but you have shown yourself to not be ready", "I feel much much better today, feeling actually okay and realised how great it is to feel okay in comparison to feeling not okay"],
+    e: ["I think that kind of society could totally stifle growth."],
+    f: ["I want to know if I am being too harsh or nasty in here", "I want to be dependable!"],
+    g: ["I feel so tired it’s like having a brain injury.", "I feel a bit sorry for her because she wanted it but she just has too much self respect."],
+    h: ["😞", "⭐"],
+    i: ["Shall I send them this photo?", "Where are you going?"],
+    j: ["https://www.reddit.com/r/aww/comments/82xokn/this_isnt_a_joke_seriously_buy_me"],
+    k: ["It means very simple organism, like single cellular organisms"],
+    l: ["I love this it's like dreaming", "I love you."],
+    m: ["YOU ARE A GENIUS", "You are not going to", "You are disciplined"],
+  },
+}
 
 class App extends Component {
 
   // regulates the sequence, userinput
   state = {
+      demo: false,
       userInput: '',
       userAnswer: '',
       prevSeq: 'Landing',
@@ -56,6 +88,7 @@ class App extends Component {
       Landing: {
         a: 'Info',
         b: 'Upload',
+        c: 'Person',
       },
       Info: {
         a: 'Upload',
@@ -170,7 +203,13 @@ class App extends Component {
 
       this.setState({userAnswer:userAnswer})
 
-      if (this.state.currSeq === 'Person'){
+      if (this.state.currSeq === 'Landing' && userAnswer == 'c'){
+        this.setState({demo:true})
+        this.callbackFileHandler(finishedData, ['Sara', 'John'])
+        let seqToRender = this.resHandler(userAnswer)
+        this.setState({renderSeq: seqToRender})
+
+      } else if (this.state.currSeq === 'Person'){
         let chosenUser = this.state.chatUsers[userAnswer]
         let seqToRender = this.resHandler(userAnswer)
         this.setState({
@@ -297,6 +336,7 @@ class App extends Component {
       }, () => {this.createUserColors()})
 
       finishedData = dataFromChild
+      console.log("finishedData >>> ", finishedData)
       this.setState({collGarbage: true});
   }
 

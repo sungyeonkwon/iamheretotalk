@@ -26,7 +26,8 @@ const sequence = ( props ) => {
       Select an option by typing in the letter inside the brackets:<br/>
       <span className="divider">––––––––––––––––––––––––––––––––––––––––––</span><br/>
       (a) What is this?<br/>
-      (b) I know what this is, let me proceed.
+      (b) I know what this is, let me proceed.<br/>
+      (c) Just show me a demo already!
       </div>
     )
   } else if (sequenceToRender=== "Info") {
