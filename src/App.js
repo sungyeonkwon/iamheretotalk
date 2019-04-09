@@ -125,15 +125,8 @@ class App extends Component {
       zoneUploaded: "",
   };
 
-  componentWillMount() {
-    console.log("componentWillMount")
-  }
-
   shouldComponentUpdate(nextProps, nextState) {
     return true
-  }
-
-  componentWillUpdate() {
   }
 
   componentDidMount() {
@@ -157,10 +150,6 @@ class App extends Component {
       console.log("componentDidUpdate, not applicable")
     }
     this.scrollToBottom();
-  }
-
-  componentWillUnmount() {
-    console.log("componentWillUnmount")
   }
 
   scrollToBottom = () => {
@@ -333,7 +322,8 @@ class App extends Component {
       this.setState({
         chatUsers: userObj,
         Person: PersonObj,
-      }, () => {this.createUserColors()})
+      // }, () => {this.createUserColors()
+      })
 
       finishedData = dataFromChild
       console.log("finishedData >>> ", finishedData)
@@ -363,22 +353,21 @@ class App extends Component {
   }
 
   setReadyForYourResponse = () => {
-    console.log("setReadyForYourResponse")
     this.setState({readyForYourResponse: true})
   }
 
-  createUserColors = () => {
-    // retrive all users and assign colors to it
-    let users = Object.values(this.state.chatUsers)
-    let colors = ['rgba(240,20,15,0.4)', 'rgba(50,40,205,0.3)', 'rgba(160,20,175,0.4)', 'rgba(20,220,45,0.4)', 'rgba(140,120,15,0.4)', 'rgba(10,250,65,0.4)', 'rgba(173,255,47,0.6)']
-    let chatUserColors = {}
-    if (users.length !== 0) {
-      users.map((user, i) => {
-        chatUserColors[user] = colors[i]
-      })
-    }
-    this.setState({chatUserColors: chatUserColors}, () => console.log(this.state.chatUserColors))
-  }
+  // createUserColors = () => {
+  //   // retrive all users and assign colors to it
+  //   let users = Object.values(this.state.chatUsers)
+  //   let colors = ['rgba(240,20,15,0.4)', 'rgba(50,40,205,0.3)', 'rgba(160,20,175,0.4)', 'rgba(20,220,45,0.4)', 'rgba(140,120,15,0.4)', 'rgba(10,250,65,0.4)', 'rgba(173,255,47,0.6)']
+  //   let chatUserColors = {}
+  //   if (users.length !== 0) {
+  //     users.map((user, i) => {
+  //       chatUserColors[user] = colors[i]
+  //     })
+  //   }
+  //   this.setState({chatUserColors: chatUserColors}, () => console.log(this.state.chatUserColors))
+  // }
 
   render() {
     console.log("[APP] this.state.currSeq:", this.state.currSeq)
@@ -397,17 +386,15 @@ class App extends Component {
       if (this.state.chatUserHistory[i]) {
         user = this.state.chatUserHistory[i]
       }
-      var userColor = {
-        backgroundColor: this.state.chatUserColors[this.state.chosenUser],
-      };
+      // let userColor = {
+      //   backgroundColor: this.state.chatUserColors[this.state.chosenUser],
+      // };
 
       // initial hello
       if ( i === 0 ){
         return (
-          <div className="chatLine you" key={i} style={{
-            // backgroundColor: this.state.chatUserColors[this.state.chatUserHistory[i]]
-          }}>
-            <Typing speed={15} className="chat-text-container you">
+          <div className="chatLine you" key={i}>
+            <Typing speed={10} className="chat-text-container you">
               <span className="chat-text you" >{user}<br/>{line}</span>
             </Typing>
           </div>)
@@ -418,8 +405,7 @@ class App extends Component {
         return (
           <div className="chatLine you" key={i} wait={1000}>
             <span className="username">{user}</span><br/>
-            <Typing speed={10} className="chat-text-container you"
-            >
+            <Typing speed={10} className="chat-text-container you">
               <Typing.Delay ms={1000} />
               <span className="chat-text you">{line}</span>
             </Typing>
