@@ -1,8 +1,6 @@
 import React from 'react';
-
 import FileDrop from 'react-file-drop';
 
-// process data here
 let lineArrRawData = [];
 let dataStorage = {};
 
@@ -15,11 +13,13 @@ function getShuffledArr(arr) {
   return result
 }
 
+// remove emoji
 function removeEmojis(string) {
   var regex = /(?:[\u2700-\u27bf]|(?:\ud83c[\udde6-\uddff]){2}|[\ud800-\udbff][\udc00-\udfff]|[\u0023-\u0039]\ufe0f?\u20e3|\u3299|\u3297|\u303d|\u3030|\u24c2|\ud83c[\udd70-\udd71]|\ud83c[\udd7e-\udd7f]|\ud83c\udd8e|\ud83c[\udd91-\udd9a]|\ud83c[\udde6-\uddff]|\ud83c[\ude01-\ude02]|\ud83c\ude1a|\ud83c\ude2f|\ud83c[\ude32-\ude3a]|\ud83c[\ude50-\ude51]|\u203c|\u2049|[\u25aa-\u25ab]|\u25b6|\u25c0|[\u25fb-\u25fe]|\u00a9|\u00ae|\u2122|\u2139|\ud83c\udc04|[\u2600-\u26FF]|\u2b05|\u2b06|\u2b07|\u2b1b|\u2b1c|\u2b50|\u2b55|\u231a|\u231b|\u2328|\u23cf|[\u23e9-\u23f3]|[\u23f8-\u23fa]|\ud83c\udccf|\u2934|\u2935|[\u2190-\u21ff])/g;
   return string.replace(regex, '');
 }
 
+// get username
 function getUser(line){
   line = removeEmojis(line)
   let regex = /:[0-9][0-9]] [a-zA-Z]+:/ig,
@@ -28,35 +28,35 @@ function getUser(line){
   return user // returns a string
 }
 
+// sentence ends with '!'
 function getPatternA(line){
-  // sentence ending with '!'
   let regex = /\b[A-Z][^.!?:]{25,}!/ig,
       matched = line.match(regex)
       if (matched) {
         matched = new Array(matched.toString().substring(0,1).toUpperCase() + matched.toString().substring(1))
       }
-  return matched // returns an array
+  return matched 
 }
 
+// sentence uppercase only
 function getPatternB(line){
-  // uppercase only sentence
   let regex = /[^a-z.!?:]{25,}/g,
       matched = line.match(regex)
-  return matched // returns an array
+  return matched 
 }
 
+// sentence starts with 'because'
 function getPatternC(line){
-  // because..
   let regex = /because\s[^.!?:]*[.!\n]{1}$/ig,
       matched = line.match(regex)
       if (matched) {
         matched = new Array(matched.toString().substring(0,1).toUpperCase() + matched.toString().substring(1))
       }
-  return matched // returns an array
+  return matched 
 }
 
+// long narrative sentence
 function getPatternD(line){
-  // long sentence
   let regex = /\b[A-Z][^.!?:]{110,}[.!\nA-Z]{1}$/ig,
       matched = line.match(regex);
   if (matched) {
@@ -65,8 +65,8 @@ function getPatternD(line){
   return matched
 }
 
+// sentence starts with 'I think'
 function getPatternE(line){
-  // What do you think?: '(sentence ending) I think...'
   let regex = /\W( I think)\s[^.!?:]*[.!\nA-Z]{1}$/ig,
       matched = line.match(regex);
   if (matched) {
@@ -75,8 +75,8 @@ function getPatternE(line){
   return matched
 }
 
+// sentence starts with 'I want'
 function getPatternF(line){
-  // What do you want?: '(sentence ending) I want ...'
   let regex = /\W( I want)\s[^.!?:]*[.!\nA-Z]{1}$/ig,
       matched = line.match(regex);
   if (matched) {
@@ -86,8 +86,8 @@ function getPatternF(line){
   return null
 }
 
+// sentence starts with 'I feel'
 function getPatternG(line){
-  // how do you feel?
   let regex = /\W( I feel)\s[^.!?:]*[.!\nA-Z]{1}$/ig,
       matched = line.match(regex);
   if (matched) {
@@ -97,6 +97,7 @@ function getPatternG(line){
   return null
 }
 
+// emoji only
 function getPatternH(line){
   // how do you *really* feel?
   let regex = /[\u2700-\u27bf]|(?:\ud83c[\udde6-\uddff]){2}|[\ud800-\udbff][\udc00-\udfff]|[\u0023-\u0039]\ufe0f?\u20e3|\u3299|\u3297|\u303d|\u3030|\u24c2|\ud83c[\udd70-\udd71]|\ud83c[\udd7e-\udd7f]|\ud83c\udd8e|\ud83c[\udd91-\udd9a]|\ud83c[\udde6-\uddff]|\ud83c[\ude01-\ude02]|\ud83c\ude1a|\ud83c\ude2f|\ud83c[\ude32-\ude3a]|\ud83c[\ude50-\ude51]|\u203c|\u2049|[\u25aa-\u25ab]|\u25b6|\u25c0|[\u25fb-\u25fe]|\u00a9|\u00ae|\u2122|\u2139|\ud83c\udc04|[\u2600-\u26FF]|\u2b05|\u2b06|\u2b07|\u2b1b|\u2b1c|\u2b50|\u2b55|\u231a|\u231b|\u2328|\u23cf|[\u23e9-\u23f3]|[\u23f8-\u23fa]|\ud83c\udccf|\u2934|\u2935|[\u2190-\u21ff]/g,
@@ -104,8 +105,8 @@ function getPatternH(line){
   return matched
 }
 
+// sentence ends with '?'
 function getPatternI(line){
-  // Ask me questions. sentence ending with ?
   let regex = /\b[A-Z][^.!?:]{25,}\?$/ig,
       matched = line.match(regex);
   if (matched) {
@@ -114,15 +115,15 @@ function getPatternI(line){
   return matched
 }
 
+// url
 function getPatternJ(line){
-  // url
   let regex = /(www\.|http:|https:)+[^\s]+[\w]/ig,
       matched = line.match(regex);
   return matched
 }
 
+// sentence starts with 'It means'
 function getPatternK(line){
-  // what does it mean?
   let regex = /(means)\s[^.!?:]*[.!\nA-Z]{1}$/ig,
       matched = line.match(regex);
   if (matched) {
@@ -131,6 +132,7 @@ function getPatternK(line){
   return matched
 }
 
+// sentence starts with 'I love'
 function getPatternL(line){
   // what do you love?
   let regex = /\W( I love)\s(?!it)(?!this)[^.!?:]*[.!\nA-Z]{1}$/ig,
@@ -142,8 +144,8 @@ function getPatternL(line){
   return null
 }
 
+// sentence starts with 'you are'
 function getPatternM(line){
-  // what do you think of me?
   let regex = /\W( you are)\s[^.!?:]*[.!\nA-Z]{1}$/ig,
       matched = line.match(regex);
   if (matched) {
@@ -159,7 +161,6 @@ function pushPattern(element, func, id, data, user ) {
   // id: pattern id
   // data: obj to store processed data
   // user: string
-
   let result = func(element)
   if (result !== null ){
     if (data[user]){
@@ -201,16 +202,14 @@ function processData(rawLineData) {
     }
 
   });
-  console.log("Final processed data", dataStorage)
+  // console.log("Final processed data: ", dataStorage)
   return dataStorage
 }
-
 
 
 const fileReader = (props) => {
 
   let isFileValid = true;
-  let zoneText = 'Drop file here'
   let uploaded;
 
   const fileLoading = () => {
@@ -218,7 +217,6 @@ const fileReader = (props) => {
   }
 
   const fileLoaded = (result) => {
-    console.log("[fileLoaded] result", result)
     props.callbackFileLoaded(result)
   }
 
@@ -243,7 +241,7 @@ const fileReader = (props) => {
         props.callbackFromParent(finalData, users)
         console.log("CHECK ", users)
 
-        // check if the data is valid
+        // Check if the data is valid
         let success = "(a) Proceed to start a conversation."
         let failure = "File seems to be odd."
         if (users === undefined || users.length === 0) {
@@ -261,30 +259,22 @@ const fileReader = (props) => {
     reader.readAsText(file.dataTransfer.files[0]);
   }
 
-  // when uploaded == true, change style and text
+  // When uploaded == true, change style and text
   const changeFileLog = (isFileValid) =>{
     if (props.uploaded){
       if (isFileValid){
         console.log("props.uploaded", props.uploaded)
         uploaded = 'uploaded'
-        zoneText = 'File Successfully Uploaded'
       } else {
         uploaded = 'uploaded'
-        zoneText = 'File seems to be odd!'
       }
     }
   }
 
-  // garbage collection for the data
+  // Garbage collection for the data
   if (props.collGarbage) {
     dataStorage = {};
   }
-
-  if (props.zoneTextChange) {
-    console.log("props.zoneText", props.zoneText)
-  }
-
-  console.log("dataStorage", dataStorage)
 
   return (
       <div className={props.zoneUploaded}>

@@ -1,45 +1,13 @@
 import React, { Component } from 'react';
 import './App.css';
-
 import Layout from './components/Layout';
-import Terminal from './containers/Terminal';
+import Terminal from './components/Terminal';
 import Prompt from './components/Prompt'
-import Chat from './containers/Chat';
-import FileReader from './components/FileReader'
-
+import Chat from './components/Chat';
+import FileReader from './components/FileReader';
 import Typing from 'react-typing-animation';
 import $ from 'jquery';
-
-let optionCount = {
-  a: 0,
-  b: 0,
-  c: 0,
-  d: 0,
-  e: 0,
-  f: 0,
-  g: 0,
-  h: 0,
-  i: 0,
-  j: 0,
-  k: 0,
-  l: 0,
-}
-
-let inputChatLine = {
-  a: 'What?',
-  b: 'Give me a shout.',
-  c: 'But why?',
-  d: 'Tell me what you need to say.',
-  e: 'What do you think?',
-  f: 'What do you want?',
-  g: 'How do you feel?',
-  h: 'How do you *really* feel?',
-  i: 'Ask me a question.',
-  j: 'What is important on the internet?',
-  k: 'What does it mean?',
-  l: 'What do you love?',
-  m: 'What do you think of me?'
-}
+import { INPUT_CHAT_LINE, optionCount } from './constants/constants';
 
 let finishedData = {
   John: {
@@ -125,29 +93,17 @@ class App extends Component {
       zoneUploaded: "",
   };
 
-  shouldComponentUpdate(nextProps, nextState) {
-    return true
-  }
-
   componentDidMount() {
     this.scrollToBottom();
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log("[componentDidUpdate]")
 
     if (prevState.readyForYourResponse !== this.state.readyForYourResponse) {
-      console.log("prevState.readyForYourResponse", prevState.readyForYourResponse)
-      console.log("this.state.readyForYourResponse", this.state.readyForYourResponse)
       let userAnswer = this.state.userAnswer
-
-      if (this.state.readyForYourResponse){// if this is true
-          console.log("this means I'm really ready for your response")
-          this.insertChatResponse(userAnswer)
+      if (this.state.readyForYourResponse){
+         this.insertChatResponse(userAnswer)
       }
-
-    } else {
-      console.log("componentDidUpdate, not applicable")
     }
     this.scrollToBottom();
   }
@@ -162,7 +118,7 @@ class App extends Component {
 
   insertUserChatOption = (userAnswer) => {
     this.setState({
-      chatContent: [...this.state.chatContent, inputChatLine[userAnswer]],
+      chatContent: [...this.state.chatContent, INPUT_CHAT_LINE[userAnswer]],
     })
 
     setTimeout(function(){
@@ -247,7 +203,7 @@ class App extends Component {
       return selectedLine;
     }
     catch(error) {
-      console.error(error);
+      // console.error(error);
       return 'You did not talk in the right way to me.'
     }
   }
@@ -304,7 +260,6 @@ class App extends Component {
           return acc;
       }, {});
 
-
       let PersonObj = Object.keys(userObj).map((key, i) => {
         return ({ [key]: 'Talk' })
       });
@@ -322,11 +277,9 @@ class App extends Component {
       this.setState({
         chatUsers: userObj,
         Person: PersonObj,
-      // }, () => {this.createUserColors()
       })
 
       finishedData = dataFromChild
-      console.log("finishedData >>> ", finishedData)
       this.setState({collGarbage: true});
   }
 
@@ -356,21 +309,7 @@ class App extends Component {
     this.setState({readyForYourResponse: true})
   }
 
-  // createUserColors = () => {
-  //   // retrive all users and assign colors to it
-  //   let users = Object.values(this.state.chatUsers)
-  //   let colors = ['rgba(240,20,15,0.4)', 'rgba(50,40,205,0.3)', 'rgba(160,20,175,0.4)', 'rgba(20,220,45,0.4)', 'rgba(140,120,15,0.4)', 'rgba(10,250,65,0.4)', 'rgba(173,255,47,0.6)']
-  //   let chatUserColors = {}
-  //   if (users.length !== 0) {
-  //     users.map((user, i) => {
-  //       chatUserColors[user] = colors[i]
-  //     })
-  //   }
-  //   this.setState({chatUserColors: chatUserColors}, () => console.log(this.state.chatUserColors))
-  // }
-
   render() {
-    console.log("[APP] this.state.currSeq:", this.state.currSeq)
 
     // user name config
     let chatContentAll = this.state.chatContent
@@ -382,13 +321,9 @@ class App extends Component {
     }
 
     let chatLineComp = chatContentAll.map((line, i) => {
-      console.log("[chatLineComp] chatUserHistory", this.state.chatUserHistory)
       if (this.state.chatUserHistory[i]) {
         user = this.state.chatUserHistory[i]
       }
-      // let userColor = {
-      //   backgroundColor: this.state.chatUserColors[this.state.chosenUser],
-      // };
 
       // initial hello
       if ( i === 0 ){
@@ -399,8 +334,7 @@ class App extends Component {
             </Typing>
           </div>)
       }
-
-      // you
+      // your chatline
       else if (i % 2 === 0 && line !== undefined) {
         return (
           <div className="chatLine you" key={i} wait={1000}>
@@ -411,7 +345,7 @@ class App extends Component {
             </Typing>
           </div>)
       }
-       // me
+      // my chatline
       else {
         return (
           <div className="chatLine me" key={i}>
@@ -468,7 +402,6 @@ class App extends Component {
                target="_blank">
               Tweet this thing</a>
           </Terminal>
-
         }
           <div className="chat-background"></div>
           <Chat

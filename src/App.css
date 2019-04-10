@@ -34,16 +34,10 @@ li, ul {
   	width: 100wh;
   	height: 100vh;
   	color: #fff;
-    /* background: #3a6186; */
-    /* background: -webkit-linear-gradient(to left, #129b12, #3a6186); */
-    /* background: linear-gradient(to left, #129b12, #3a6186); */
-
-    background: #172f72;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to left, #129b12, #172f72);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to left, #129b12, #172f72); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
+    background: #172f72;
+    background: -webkit-linear-gradient(to left, #129b12, #172f72); 
+    background: linear-gradient(to left, #129b12, #172f72); 
   }
-
 
 /** TERMINAL CHAT CONTAINTERS **/
 
@@ -93,11 +87,9 @@ input:focus {
 }
 
 input[type=text] {
-  /* background-color: rgba(255,255,255,0.1); */
   border: 1px solid rgba(255,255,255,0.4);
   background-color:transparent;
   color: white;
-  /* border:2px solid #444; */
   font-size:17px;
   font-family: 'IBM Plex Mono', monospace;
   border-radius: 3px;
@@ -108,7 +100,6 @@ input[type=text] {
   margin: 5px 0 25px 0;
 }
 .file-drop {
-  /* relatively position the container bc the contents are absolute */
   position: relative;
   height: 100px;
   width: 100%;
@@ -116,13 +107,11 @@ input[type=text] {
 }
 
 .file-drop > .file-drop-target {
-  /* basic styles */
   position: absolute;
   top: 0;
   left: 0;
   height: 100%;
   width: 100%;
-  /* max-width: 410px; */
   border-radius: 1px;
   border:1px dashed rgba(255,255,255,0.3);
   background-color:transparent;
@@ -163,22 +152,18 @@ input[type=text] {
 }
 
 .file-drop > .file-drop-target.file-drop-dragging-over-frame {
-  /* overlay a black mask when dragging over the frame */
   border:1px dashed white;
-  /* background-color: rgba(100, 0, 0, 0.25); */
   box-shadow: 0 0 30px 0px rgba(124, 200, 124,1);
   z-index: 50;
   opacity: 1.0;
 }
 
 .file-drop > .file-drop-target.file-drop-dragging-over-target {
-  /* turn stuff orange when we are dragging over the target */
   box-shadow: 0 0 30px 0px rgba(124, 200, 124,1);
 }
 
 .upload .file-drop-target {
   background-color: rgba(255, 255, 255,0.1);
-  /* box-shadow: 0 0 53px 3px #ff6e40; */
   z-index: 50;
   border:1px solid rgba(124, 200, 124,0);
 }
@@ -244,9 +229,6 @@ input[type=text] {
   color:rgba(255,255,255,0.5);
 }
 
-.chat-text.me {
-  /* background:rgba(255, 204, 204,0.5); */
-}
 .chat-text-container {
   z-index:10;
   margin-bottom:20px;
@@ -262,17 +244,12 @@ input[type=text] {
   margin-left: 10%;
 }
 
-/** VIDEO BG **/
-#tubular-container, .tubular{
-  position:absolute;
-  z-index:-9999;
-}
 #root {
   position:absolute;
   z-index:999;
 }
 
-/** twitter button **/
+/** TWITTER **/
 .twitter-share-button {
   position:absolute;
   left: 30px;
@@ -283,7 +260,7 @@ input[type=text] {
   z-index:99999;
 }
 
-/** mobile **/
+/** MOBILE **/
 @media only screen and (max-width: 900px) {
   .container {
     width:100%;

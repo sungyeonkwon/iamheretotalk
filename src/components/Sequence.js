@@ -9,19 +9,18 @@ const sequence = ( props ) => {
 
   try {
     userOptions = Object.values(users).sort()
-        .map( (user, index) => {
-            return (
-                <span key={index}>
-                    <span>({abcd[index]}) </span>{user}<br/>
-                </span> );
-        } );
+      .map( (user, index) => {
+        return (
+          <span key={index}>
+              <span>({abcd[index]}) </span>{user}<br/>
+          </span> );
+      } );
   } catch {
     userOptions = ''
   }
 
   if (sequenceToRender === "Landing") {
     return (
-      // here sequence is the variable that's different
       <div className="sequence">
       Select an option by typing in the letter inside the brackets:<br/>
       <span className="divider">––––––––––––––––––––––––––––––––––––––––––</span><br/>
