@@ -4,7 +4,7 @@
 
 Use it to talk to people you have previously talked on WhatsApp (or to yourself) again.
 
-Live website: https://iamheretotalk.online/
+Live website: https://iamheretotalk-3be51.firebaseapp.com/
 
 ## How does it work
 
